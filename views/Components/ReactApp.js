@@ -1,0 +1,43 @@
+var React = require("react"),
+    Nav = require("./Nav"),
+    Jumbotron = require("./Jumbotron"),
+    Subotron = require("./Subotron"),
+    InfoBox = require("./InfoBox"),
+    InfoColumn = require("./InfoColumn");
+
+
+var ReactApp = React.createClass({
+    
+    render: function() {
+        let data = [{
+                name: "React.JS",
+                className: "fa-code",
+                description: "React Is A Javascript Library For Building User Interfaces"
+            },
+            {
+                name: "Mongoose.JS",
+                className: "fa-database",
+                description: "Let's face it, writing MongoDB validation, casting and business logic boilerplate is a drag. That's why we wrote Mongoose. n\Mongoose provides a straight-forward, schema-based solution to model your application data. n\It includes built-in type casting, validation, query building, business logic hooks and more, out of the box."
+            },
+            {
+                name: "Passport.JS",
+                className:"fa-users",
+                description: "Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application. A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more."
+            }];
+      let infoNodes = data.map((datum, i) => {
+        return (
+          <InfoColumn key ={i} {...datum} />
+        );
+      });
+        return (
+            <div>
+                <Nav />
+                <Jumbotron />
+                <Subotron />
+                <div className="container">{infoNodes}</div>
+            </div>
+        );
+    }
+});
+
+module.exports = ReactApp;
