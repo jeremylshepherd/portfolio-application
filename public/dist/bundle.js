@@ -20441,29 +20441,7 @@ var node = document.getElementById('app');
 
 _reactDom2.default.render(_react2.default.createElement(_ReactApp2.default, null), node);
 
-},{"../views/Components/ReactApp.js":177,"react":171,"react-dom":2}],173:[function(require,module,exports){
-"use strict";
-
-var InfoColumn = require("./InfoColumn");
-var React = require("react");
-
-var InfoBox = React.createClass({
-    displayName: "InfoBox",
-
-    render: function render() {
-        return React.createElement(
-            "div",
-            { className: "container" },
-            React.createElement(InfoColumn, null),
-            React.createElement(InfoColumn, null),
-            React.createElement(InfoColumn, null)
-        );
-    }
-});
-
-module.exports = InfoBox;
-
-},{"./InfoColumn":174,"react":171}],174:[function(require,module,exports){
+},{"../views/Components/ReactApp.js":176,"react":171,"react-dom":2}],173:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -20492,7 +20470,7 @@ var InfoColumn = React.createClass({
 
 module.exports = InfoColumn;
 
-},{"react":171}],175:[function(require,module,exports){
+},{"react":171}],174:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -20500,13 +20478,24 @@ var React = require("react");
 var Jumbotron = React.createClass({
     displayName: "Jumbotron",
 
+    getInitialState: function getInitialState() {
+        return {
+            isShadow: false,
+            shadow: ""
+        };
+    },
+
+    handleShadow: function handleShadow() {
+        this.state.isShadow ? this.setState({ shadow: "shadow", isShadow: false }) : this.setState({ shadow: "", isShadow: true });
+    },
+
     render: function render() {
         return React.createElement(
             "div",
             { className: "container" },
             React.createElement(
                 "div",
-                { className: "jumbotron text-center" },
+                { className: "jumbotron text-center " + this.state.shadow, onClick: this.handleShadow },
                 React.createElement(
                     "h1",
                     null,
@@ -20537,7 +20526,7 @@ var Jumbotron = React.createClass({
 
 module.exports = Jumbotron;
 
-},{"react":171}],176:[function(require,module,exports){
+},{"react":171}],175:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -20564,7 +20553,7 @@ var Nav = React.createClass({
 
 module.exports = Nav;
 
-},{"react":171}],177:[function(require,module,exports){
+},{"react":171}],176:[function(require,module,exports){
 "use strict";
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -20573,7 +20562,6 @@ var React = require("react"),
     Nav = require("./Nav"),
     Jumbotron = require("./Jumbotron"),
     Subotron = require("./Subotron"),
-    InfoBox = require("./InfoBox"),
     InfoColumn = require("./InfoColumn");
 
 var ReactApp = React.createClass({
@@ -20614,7 +20602,7 @@ var ReactApp = React.createClass({
 
 module.exports = ReactApp;
 
-},{"./InfoBox":173,"./InfoColumn":174,"./Jumbotron":175,"./Nav":176,"./Subotron":178,"react":171}],178:[function(require,module,exports){
+},{"./InfoColumn":173,"./Jumbotron":174,"./Nav":175,"./Subotron":177,"react":171}],177:[function(require,module,exports){
 "use strict";
 
 var React = require("react");

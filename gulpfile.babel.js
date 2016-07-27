@@ -19,7 +19,7 @@ gulp.task("build-react", () => {
     return browserify("views/Components/ReactApp")
     .transform("babelify")
     .bundle()
-    .pipe(source("reactApp.js"))
+    .pipe(source("ReactApp.js"))
     .pipe(gulp.dest("public/dist"));
 });
 
@@ -30,7 +30,7 @@ gulp.task('build-css', () => {
 });
 
 gulp.task("sass:watch", () => {
-    gulp.watch('src/app.sass', ['sass']);    
+    gulp.watch('src/app.sass', ['build-css']);    
     
     
 });

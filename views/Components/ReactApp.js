@@ -2,7 +2,6 @@ var React = require("react"),
     Nav = require("./Nav"),
     Jumbotron = require("./Jumbotron"),
     Subotron = require("./Subotron"),
-    InfoBox = require("./InfoBox"),
     InfoColumn = require("./InfoColumn");
 
 
