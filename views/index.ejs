@@ -9,9 +9,15 @@
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="dist/app.css">
   </head>
-  <body>
-        <div id="app"><%-reactHTML%></div>
-        <script type="text/javascript" src="dist/bundle.js"></script>
+    <body>
+      <% if(messages.logout) {%>
+      <div class="alert alert-success" role="alert"><span class="fa fa-thumbs-o-up"></span><%= messages.logout%></div>
+      <% } %>
+      <% if(messages.login) {%>
+      <div class="alert alert-danger" role="alert"><span class="fa fa-hand-stop-o"></span><%= messages.login%></div>
+      <% } %>
+      <div id="app"><%-reactHTML%></div>
+      <script type="text/javascript" src="dist/bundle.js"></script>
     </body>
 
 </html>

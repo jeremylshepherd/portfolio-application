@@ -10,6 +10,9 @@ var User = require('../models/Users');
 var React = require("react");
 var ReactDOMServer = require("react-dom/server");
 var ReactApp = require("../views/Components/ReactApp");
+var passport = require("passport");
+
+require("../config/passport");
 
 
 router.get('/', function(req, res) {
@@ -19,7 +22,47 @@ router.get('/', function(req, res) {
     res.render('index.ejs', {reactHTML : reactString});
 });
 
+router.get('/auth/github', passport.authenticate('github'));
+
+// GitHub will call this URL
+router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+
+router.post('/github/login', passport.authenticate('github'), (req, res) => {
+    res.redirect('/users/' + req.user.username);
+});
+
+router.get('/users/:username', isLoggedIn, (req, res) => {
+   User.findOne({'github.username' : req.params.username}, (err, user) => {
+       if(err) {res.json(err);}
+       let obj = {};
+       obj.username = user.github.username;
+       obj.name = user.github.displayName;
+       obj.repos = user.github.publicRepos;
+       res.json(obj);
+   });
+});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('logout', 'You have successfully logged out!');
+    res.redirect('/');
+})
+
+router.get('/test', function(req, res) {
+   res.json(req.user); 
+});
 
 
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        console.log("You are logged in!");
+        return next(); }
+    req.flash("login", "You must first log in or register first!");
+    res.redirect('/');
+}
 
 module.exports = router;

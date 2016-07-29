@@ -5,9 +5,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require("passport");
+var session = require("express-session");
+var flash = require("express-flash");
+
 
 var app = express();
 require('dotenv').load();
+
+require("./config/passport")(passport);
+
 var routes = require('./routes/index');
 
 mongoose.connect(process.env.MONGO_URI, function(err, db) {
@@ -20,6 +27,16 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: true
+}));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
