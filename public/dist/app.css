@@ -1,11 +1,66 @@
-.navbar-btn {
-  margin-top: 25px; }
+.btn-twitter {
+  color: #FFFFFF;
+  background-color: #1DA1F3;
+  border-color: #130269; }
+  .btn-twitter:hover, .btn-twitter:focus, .btn-twitter:active, .btn-twitter.active {
+    color: #FFFFFF;
+    background-color: #0a7bc2;
+    border-color: #130269; }
 
-.jumbotron {
-  background: #337AB7; }
+.open .dropdown-toggle.btn-twitter {
+  color: #FFFFFF;
+  background-color: #0a7bc2;
+  border-color: #130269; }
 
-.shadow {
-  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.8); }
+.btn-twitter:active, .btn-twitter.active {
+  background-image: none; }
+
+.open .dropdown-toggle.btn-twitter {
+  background-image: none; }
+
+.btn-twitter.disabled, .btn-twitter[disabled] {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-twitter {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+.btn-twitter.disabled:hover, .btn-twitter[disabled]:hover {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-twitter:hover {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+.btn-twitter.disabled:focus, .btn-twitter[disabled]:focus {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-twitter:focus {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+.btn-twitter.disabled:active, .btn-twitter[disabled]:active {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-twitter:active {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+.btn-twitter.disabled.active, .btn-twitter[disabled].active {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-twitter.active {
+  background-color: #1DA1F3;
+  border-color: #130269; }
+
+.btn-twitter .badge {
+  color: #1DA1F3;
+  background-color: #FFFFFF; }
 
 .btn-custom-darken {
   color: #ffffff;
@@ -31,3 +86,12 @@
     *background-color: #272727; }
   .btn-custom-darken:active, .btn-custom-darken.active {
     background-color: #1a1a1a; }
+
+.navbar-btn {
+  margin-top: 25px; }
+
+.jumbotron {
+  background: #337AB7; }
+
+.shadow {
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.8); }
