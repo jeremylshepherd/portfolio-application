@@ -20510,7 +20510,7 @@ var Jumbotron = React.createClass({
                 React.createElement(
                     "a",
                     { href: "/auth/google", className: "btn btn-danger" },
-                    React.createElement("span", { className: "fa fa-google-plus" }),
+                    React.createElement("span", { className: "fa fa-google-plus", alt: "google logo" }),
                     " Google"
                 ),
                 React.createElement(
@@ -20545,6 +20545,12 @@ var Nav = React.createClass({
                     "h1",
                     { className: "navbar-brand" },
                     "React Universal Template"
+                ),
+                React.createElement(
+                    "a",
+                    { href: "/logout", className: "btn btn-danger navbar-btn navbar-right" },
+                    React.createElement("span", { className: "fa fa-eject" }),
+                    " logout"
                 )
             )
         );

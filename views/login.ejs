@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-
-  <head>
-
-    <title>Log in | Universal React Template</title>
-     
-    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="dist/app.css">
-  </head>
+  <%- include ../views/partials/_head.ejs %>
   <body>
-        <a href="/github/login"><span class="fa fa-github"></span> Login</a>
-        <script type="text/javascript" src="dist/bundle.js"></script>
+    <%- include ../views/partials/_flashMessages.ejs %>
+      <div class="container logo"></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/React.js_logo.svg" alt="react logo" class="img-responsive img-circle center-block"></img>
+        <h3 class="text-center">Welcome to Universal React Template!</h3>
+        <h4 class="text-center">Please Log in or Register using:</h4>
+        <div class="text-center">
+          <a href="/auth/google" class="btn btn-danger text-center"><span class="fa fa-google-plus"></span> Google</a>
+          <a href="/auth/github" class="btn btn-custom-darken text-center"><span class="fa fa-github" alt="github logo"></span> Github</a>
+        </div>
+      </div>
     </body>
 
 </html>

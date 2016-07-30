@@ -20,7 +20,7 @@ var Jumbotron = React.createClass({
             
                     <p>Login or Register with:</p>
             
-                    <a href="/auth/google" className="btn btn-danger"><span className="fa fa-google-plus"></span> Google</a>
+                    <a href="/auth/google" className="btn btn-danger"><span className="fa fa-google-plus" alt="google logo"></span> Google</a>
                     <a href="/auth/github" className="btn btn-custom-darken"><span className="fa fa-github" alt="github logo"></span> Github</a>
                 </div>
             </div>

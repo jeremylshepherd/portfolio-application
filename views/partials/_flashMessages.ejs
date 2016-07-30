@@ -1,0 +1,9 @@
+<% if(messages.logout) {%>
+      <div class="alert alert-success" role="alert"><span class="fa fa-thumbs-o-up"></span><%= messages.logout%></div>
+<% } %>
+<% if(messages.loggedin) {%>
+    <div class="alert alert-success" role="alert"><span class="fa fa-hand-spock-o"></span><%= messages.loggedin%></div>
+<% } %>
+<% if(messages.login && !messages.logout) {%>
+    <div class="alert alert-danger" role="alert"><span class="fa fa-hand-stop-o"></span><%= messages.login%></div>
+<% } %>

@@ -15,7 +15,7 @@ var passport = require("passport");
 require("../config/passport");
 
 
-router.get('/', function(req, res) {
+router.get('/', isLoggedIn, function(req, res) {
     var reactString = ReactDOMServer.renderToString(
         React.createElement(ReactApp)
     );
@@ -24,15 +24,15 @@ router.get('/', function(req, res) {
 
 router.get('/auth/github', passport.authenticate('github'));
 
-// GitHub will call this URL
 router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/');
+    function(req, res) {
+      req.flash('loggedin', "Who's awesome? You're awesome! Thanks for logging in.");
+      res.redirect('/');
   }
 );
 
-router.post('/github/login', passport.authenticate('github'), (req, res) => {
-    res.redirect('/users/' + req.user.username);
+router.get('/login', (req, res) => {
+    res.render('login.ejs');
 });
 
 router.get('/users/:username', isLoggedIn, (req, res) => {
@@ -60,9 +60,10 @@ router.get('/test', function(req, res) {
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         console.log("You are logged in!");
-        return next(); }
+        return next(); 
+    }
     req.flash("login", "You must first log in or register first!");
-    res.redirect('/');
+    res.redirect('/login');
 }
 
 module.exports = router;
