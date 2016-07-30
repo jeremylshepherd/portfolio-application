@@ -87,6 +87,134 @@ fieldset[disabled] .btn-twitter.active {
   .btn-custom-darken:active, .btn-custom-darken.active {
     background-color: #1a1a1a; }
 
+.btn-facebook {
+  color: #FFFFFF;
+  background-color: #3B5998;
+  border-color: #130269; }
+  .btn-facebook:hover, .btn-facebook:focus, .btn-facebook:active, .btn-facebook.active {
+    color: #FFFFFF;
+    background-color: #324b81;
+    border-color: #130269; }
+
+.open .dropdown-toggle.btn-facebook {
+  color: #FFFFFF;
+  background-color: #324b81;
+  border-color: #130269; }
+
+.btn-facebook:active, .btn-facebook.active {
+  background-image: none; }
+
+.open .dropdown-toggle.btn-facebook {
+  background-image: none; }
+
+.btn-facebook.disabled, .btn-facebook[disabled] {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-facebook {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+.btn-facebook.disabled:hover, .btn-facebook[disabled]:hover {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-facebook:hover {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+.btn-facebook.disabled:focus, .btn-facebook[disabled]:focus {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-facebook:focus {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+.btn-facebook.disabled:active, .btn-facebook[disabled]:active {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-facebook:active {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+.btn-facebook.disabled.active, .btn-facebook[disabled].active {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-facebook.active {
+  background-color: #3B5998;
+  border-color: #130269; }
+
+.btn-facebook .badge {
+  color: #3B5998;
+  background-color: #FFFFFF; }
+
+.btn-linkedIn {
+  color: #FFFFFF;
+  background-color: #0077B5;
+  border-color: #130269; }
+  .btn-linkedIn:hover, .btn-linkedIn:focus, .btn-linkedIn:active, .btn-linkedIn.active {
+    color: #FFFFFF;
+    background-color: #005380;
+    border-color: #130269; }
+
+.open .dropdown-toggle.btn-linkedIn {
+  color: #FFFFFF;
+  background-color: #005380;
+  border-color: #130269; }
+
+.btn-linkedIn:active, .btn-linkedIn.active {
+  background-image: none; }
+
+.open .dropdown-toggle.btn-linkedIn {
+  background-image: none; }
+
+.btn-linkedIn.disabled, .btn-linkedIn[disabled] {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-linkedIn {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+.btn-linkedIn.disabled:hover, .btn-linkedIn[disabled]:hover {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-linkedIn:hover {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+.btn-linkedIn.disabled:focus, .btn-linkedIn[disabled]:focus {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-linkedIn:focus {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+.btn-linkedIn.disabled:active, .btn-linkedIn[disabled]:active {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-linkedIn:active {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+.btn-linkedIn.disabled.active, .btn-linkedIn[disabled].active {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+fieldset[disabled] .btn-linkedIn.active {
+  background-color: #0077B5;
+  border-color: #130269; }
+
+.btn-linkedIn .badge {
+  color: #0077B5;
+  background-color: #FFFFFF; }
+
 .navbar-btn {
   margin-top: 25px; }
 

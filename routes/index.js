@@ -15,7 +15,7 @@ var passport = require("passport");
 require("../config/passport");
 
 
-router.get('/', isLoggedIn, function(req, res) {
+router.get('/', isLoggedIn, (req, res) => {
     var reactString = ReactDOMServer.renderToString(
         React.createElement(ReactApp)
     );
@@ -34,6 +34,15 @@ router.get('/auth/github/callback', passport.authenticate('github', { failureRed
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
+    function(req, res) {
+      req.flash('loggedin', "Who's awesome? You're awesome! Thanks for logging in.");
+      res.redirect('/');
+  }
+);
+
+router.get('/auth/twitter', passport.authenticate('twitter'));
+
+router.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }),
     function(req, res) {
       req.flash('loggedin', "Who's awesome? You're awesome! Thanks for logging in.");
       res.redirect('/');
