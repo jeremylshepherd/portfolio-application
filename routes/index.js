@@ -19,12 +19,21 @@ router.get('/', isLoggedIn, function(req, res) {
     var reactString = ReactDOMServer.renderToString(
         React.createElement(ReactApp)
     );
-    res.render('index.ejs', {reactHTML : reactString});
+    res.render('index.ejs', {reactHTML : reactString, user: req.user});
 });
 
 router.get('/auth/github', passport.authenticate('github'));
 
 router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }),
+    function(req, res) {
+      req.flash('loggedin', "Who's awesome? You're awesome! Thanks for logging in.");
+      res.redirect('/');
+  }
+);
+
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
       req.flash('loggedin', "Who's awesome? You're awesome! Thanks for logging in.");
       res.redirect('/');
