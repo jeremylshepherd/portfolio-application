@@ -49,6 +49,15 @@ router.get('/auth/twitter/callback', passport.authenticate('twitter', { failureR
   }
 );
 
+router.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+
+router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/' }),
+    function(req, res) {
+      req.flash('loggedin', "Who's awesome? You're awesome! Thanks for logging in.");
+      res.redirect('/');
+  }
+);
+
 router.get('/login', (req, res) => {
     res.render('login.ejs');
 });

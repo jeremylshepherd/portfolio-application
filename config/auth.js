@@ -20,6 +20,12 @@ module.exports = {
         'consumerKey'         : process.env.TWITTER_CONSUMER,
         'consumerSecret'     : process.env.TWITTER_SECRET,
         'callbackURL'      : process.env.APP_URL + 'auth/twitter/callback'
+    },
+    
+    'facebookAuth' : {
+        'clientID'         : process.env.FACEBOOK_ID,
+        'clientSecret'     : process.env.FACEBOOK_SECRET,
+        'callbackURL'      : process.env.APP_URL + 'auth/facebook/callback'
     }
 
 };
