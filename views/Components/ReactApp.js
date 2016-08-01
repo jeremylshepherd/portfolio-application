@@ -2,10 +2,36 @@ var React = require("react"),
     Nav = require("./Nav"),
     Jumbotron = require("./Jumbotron"),
     Subotron = require("./Subotron"),
-    InfoColumn = require("./InfoColumn");
+    InfoColumn = require("./InfoColumn"),
+    $ = require("jquery");
 
 
 var ReactApp = React.createClass({
+    getInitialState: function() {
+        return ({
+            user: {}
+        });
+    },
+    
+    getUser: function() {
+        $.ajax({
+          url: '/api/me',
+          dataType: 'json',
+          cache: false,
+          success: function(data) {
+            this.setState({
+                user: data
+              });
+          }.bind(this),
+          error: function(xhr, status, err) {
+            console.error('/api/me', status, err.toString());
+          }.bind(this)
+        });
+    },
+    
+    componentDidMount: function() {
+        this.getUser();
+    },
     
     render: function() {
         let data = [{
@@ -28,12 +54,14 @@ var ReactApp = React.createClass({
           <InfoColumn key ={i} {...datum} />
         );
       });
+      var user = JSON.stringify(this.state.user, null, 2);
         return (
             <div>
                 <Nav />
-                <Jumbotron />
+                <Jumbotron username={this.state.user.email}/>
                 <Subotron />
                 <div className="container">{infoNodes}</div>
+                <pre>{user}</pre>
             </div>
         );
     }

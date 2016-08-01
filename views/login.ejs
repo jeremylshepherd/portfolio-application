@@ -14,8 +14,17 @@
           <a href="/auth/twitter" class="btn btn-twitter"><span class="fa fa-twitter-square" alt="twitter logo"></span> Twitter</a>
           <a href="/auth/facebook" class="btn btn-facebook"><span class="fa fa-facebook-square" alt="facebook logo"></span> Facebook</a>
           <!--<a href="#/auth/linkedin" class="btn btn-linkedIn"><span class="fa fa-linkedin-square" alt="linkedin logo"></span> LinkedIn</a>-->
+          <%- include ../views/partials/_registerForm.ejs %>
+          <%- include ../views/partials/_loginForm.ejs %>
+          <hr>
+            <div class="buttons">
+              <h3 class="btn btn-default" data-toggle="modal" data-target="#registerForm">Register</h3>
+              <h3 class="btn btn-default" data-toggle="modal" data-target="#loginForm">Log In</h3>
+            </div>
         </div>
       </div>
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </body>
 
 </html>

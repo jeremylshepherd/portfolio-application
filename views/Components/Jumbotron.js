@@ -13,10 +13,11 @@ var Jumbotron = React.createClass({
     },
     
     render: function() {
+        var user = this.props.username ? this.props.username : "User Authentication";
         return (
             <div className="container">
                 <div className={"jumbotron text-center " + this.state.shadow} onClick={this.handleShadow}>
-                    <h1><span className="fa fa-user"></span> User Authentication</h1>
+                    <h1><span className="fa fa-user"></span> {user}</h1>
             
                     <p>Login or Register with:</p>
             
