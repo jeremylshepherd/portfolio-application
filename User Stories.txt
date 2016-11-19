@@ -13,8 +13,3 @@ User Story: As an unauthenticated or authenticated user, I can see and vote on e
 User Story: As an unauthenticated or authenticated user, I can see the results of polls in chart form. (This could be implemented using Chart.js or Google Charts.) X
 
 User Story: As an authenticated user, if I don't like the options on a poll, I can create a new option. X
-
-
-Changelog:
-20161111 13:17 hours: Implemented POST poll route.
-20161113 21:15 hours: Cannot pass Poll or Poll id to Poll component after intial render. <div id="poll"></div><%-reactPOLL%></div>
