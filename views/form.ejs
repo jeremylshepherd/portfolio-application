@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <%- include ../views/partials/_head.ejs %>
+  <body>
+    <%- include ../views/partials/_flashMessages.ejs %>
+      <div class="container logo">
+        <%- include ../views/partials/_form.ejs %>
+      </div>
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <script>
+        function testPoll() {
+          var form = document.querySelector('#poll');
+          var data = {};
+          var arr = [];
+          for(var i = 0; i < form.length; i++) {
+            var obj = {};
+            if(form[i].name === 'title') {
+              data.title = form[i].value;
+            }
+            if(form[i].name === 'option'){
+              obj.text = form[i].value;
+              arr.push(obj);
+            }
+          }
+          data.options = arr;
+          $.ajax({
+            url: '/newpoll',
+            dataType: 'json',
+            type: 'POST',
+            data: data,
+            success: function(data) {
+              console.log('success');
+            },
+            error: function(xhr, status, err) {
+              console.error(err);
+            }
+          });
+        }
+      </script>
+    </body>
+
+</html>

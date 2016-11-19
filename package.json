@@ -1,9 +1,12 @@
 {
-  "name": "UniversalReactTemplate",
+  "name": "FCCVotingApp",
   "version": "0.0.0",
-  "description": "An attempt to create a simple template for React applications with Authentiction.",
+  "description": "Free Code Camp Voting Application.",
   "main": "server.js",
   "repository": "",
+  "scripts": {
+    "start": "gulp && mongod --smallfiles && node server.js"
+  },
   "author": "Jeremy L. Shepherd <jeremylshepherd@gmail.com>",
   "dependencies": {
     "babel-core": "^6.11.4",
@@ -37,6 +40,13 @@
     "react": "^15.2.1",
     "react-addons": "^0.9.1-deprecated",
     "react-dom": "^15.2.1",
+    "react-router": "^3.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "g": "^2.0.1",
+    "mocha": "^3.0.2",
+    "nodemon": "^1.10.0"
   }
 }

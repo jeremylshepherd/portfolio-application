@@ -7,34 +7,13 @@ var bcrypt = require('bcrypt-nodejs');
 var User = new Schema({
 	github: {
 		id: String,
+		token: String,
 		displayName: String,
 		username: String,
-        publicRepos: Number
-	},
-    google: {
-        id: String,
-        token: String,
-        email: String,
-        name: String
-    },
-    twitter: {
-        id: String,
-        token: String,
-        displayName: String,
-        username: String
-    },
-    facebook:{
-        id: String,
-        token: String,
-        name: String
-    },
-    local:{
-        email: String,
-        password: String,
-        firstName: String,
-        lastName: String,
-        fullName: String
-    }
+        publicRepos: Number,
+        created: Date,
+        avatar: String
+	}
 });
 
 User.methods.generateHash = function(password) {
