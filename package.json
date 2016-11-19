@@ -5,7 +5,8 @@
   "main": "server.js",
   "repository": "",
   "scripts": {
-    "start": "gulp && mongod --smallfiles && node server.js"
+    "build": "gulp",
+    "start": "node server.js"
   },
   "author": "Jeremy L. Shepherd <jeremylshepherd@gmail.com>",
   "dependencies": {
