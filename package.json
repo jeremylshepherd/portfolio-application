@@ -5,8 +5,8 @@
   "main": "server.js",
   "repository": "",
   "scripts": {
-    "build": "gulp",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "gulp default"
   },
   "author": "Jeremy L. Shepherd <jeremylshepherd@gmail.com>",
   "dependencies": {
