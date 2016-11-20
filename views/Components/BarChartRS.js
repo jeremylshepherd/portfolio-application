@@ -101,6 +101,9 @@ let max,
             ctx = canvas.getContext('2d');
             window.addEventListener('resize', this.handleResize, false);
             this.setState({container: {width: dim.width, height: dim.height}});
+            if(this.state.container.width < this.props.width){
+                this.setState({width: dim.width, height: dim.height});
+            }
             this.draw();
         },
         
