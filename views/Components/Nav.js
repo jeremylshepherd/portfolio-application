@@ -16,9 +16,11 @@ var Nav = React.createClass({
         return (
             <nav className="navbar navbar-inverse">
               <div className="container">
-                <h1 className="navbar-brand">
-                    FCC Voting App
-                </h1>
+                <Link to='/'>
+                    <h1 className="navbar-brand">
+                        FCC Voting App
+                    </h1>
+                </Link>
                 <ul className="nav navbar-nav">
                     <li><Link to='/polls'>All Polls</Link></li>
                 </ul>

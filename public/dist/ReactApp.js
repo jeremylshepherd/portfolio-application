@@ -19018,9 +19018,13 @@ var Nav = React.createClass({
                 "div",
                 { className: "container" },
                 React.createElement(
-                    "h1",
-                    { className: "navbar-brand" },
-                    "FCC Voting App"
+                    Link,
+                    { to: "/" },
+                    React.createElement(
+                        "h1",
+                        { className: "navbar-brand" },
+                        "FCC Voting App"
+                    )
                 ),
                 React.createElement(
                     "ul",
