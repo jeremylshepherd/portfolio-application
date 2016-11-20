@@ -6,7 +6,7 @@
   "repository": "",
   "engines": {
     "node": "4.4.5"
-  }
+  },
   "scripts": {
     "start": "mongod --smallfiles && node server.js",
     "postinstall": "gulp"
