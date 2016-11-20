@@ -35243,7 +35243,7 @@ _reactDom2.default.render(_react2.default.createElement(
     _react2.default.createElement(_reactRouter.Route, { path: "/poll/:poll", component: _PollPage2.default })
 ), app);
 
-},{"../views/Components/AllPolls.js":230,"../views/Components/PollPage.js":238,"../views/Components/ReactApp.js":239,"react":228,"react-dom":3,"react-router":30}],230:[function(require,module,exports){
+},{"../views/Components/AllPolls.js":230,"../views/Components/PollPage.js":239,"../views/Components/ReactApp.js":240,"react":228,"react-dom":3,"react-router":30}],230:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -35387,7 +35387,7 @@ var AllPolls = React.createClass({
 
 module.exports = AllPolls;
 
-},{"./Nav":235,"./Poll":236,"jquery":2,"react":228,"react-dom":3,"react-router":30}],231:[function(require,module,exports){
+},{"./Nav":236,"./Poll":237,"jquery":2,"react":228,"react-dom":3,"react-router":30}],231:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -35404,6 +35404,15 @@ var max = void 0,
 
 var BarChart = _react2.default.createClass({
     displayName: "BarChart",
+
+    getInitialState: function getInitialState() {
+        return {
+            width: this.props.width,
+            height: this.props.height,
+            margin: this.props.margin,
+            container: { width: 0, height: 0 }
+        };
+    },
 
     drawBackground: function drawBackground() {
         (0, _ChartFunctions.rect)(ctx, 0, 0, this.props.width, this.props.height, '#ccc');
@@ -35482,26 +35491,204 @@ var BarChart = _react2.default.createClass({
     },
 
     componentDidMount: function componentDidMount() {
+        var divID = "div" + this.props.poll._id;
         var canvas = this.refs[this.props.poll._id];
+        var div = this.refs[divID];
+        var dim = div.getBoundingClientRect();
         ctx = canvas.getContext('2d');
+        window.addEventListener('resize', this.handleResize, false);
+        this.setState({ container: { width: dim.width, height: dim.height } });
         this.draw();
     },
 
     componentDidUpdate: function componentDidUpdate() {
         var canvas = this.refs[this.props.poll._id];
         ctx = canvas.getContext('2d');
+        window.addEventListener('resize', this.handleResize, false);
         this.draw();
+    },
+
+    // componentWillUpdate:function() {
+    //     let divID = `div${this.props.poll._id}`;
+    //     let canvas = this.refs[this.props.poll._id];
+    //     let div = this.refs[divID];
+    //     let dim = div.getBoundingClientRect();
+    //     ctx = canvas.getContext('2d');
+    //     window.addEventListener('resize', this.handleResize, false);
+    //     this.setState({container: {width: dim.width, height: dim.height}});
+    //     this.draw();
+    // },
+
+    handleResize: function handleResize() {
+        var divID = "div" + this.props.poll._id;
+        var div = this.refs[divID];
+        var dim = div.getBoundingClientRect();
+        this.setState({ container: { width: dim.width, height: dim.height } });
+        var pW = this.props.width;
+        var cW = this.state.container.width;
+        this.setState({ width: cW < pW ? cW - 40 : pW });
+        this.setState({ height: this.state.width / 4 * 3 });
     },
 
     render: function render() {
 
-        return _react2.default.createElement("canvas", { className: "center-block", ref: this.props.poll._id, width: this.props.width, height: this.props.height });
+        return _react2.default.createElement(
+            "div",
+            { ref: "div" + this.props.poll._id },
+            _react2.default.createElement("canvas", { className: "center-block", ref: this.props.poll._id, width: this.state.width, height: this.state.height })
+        );
     }
 });
 
 module.exports = BarChart;
 
-},{"./ChartFunctions":232,"react":228}],232:[function(require,module,exports){
+},{"./ChartFunctions":233,"react":228}],232:[function(require,module,exports){
+"use strict";
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ChartFunctions = require("./ChartFunctions");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var max = void 0,
+    color = ['red', 'yellow', 'blue', 'orange', 'green', 'purple', '#FF4D00', '#FFBF00', 'chartreuse', 'teal', 'violet', 'magenta'],
+    ctx = void 0;
+
+var BarChartRS = _react2.default.createClass({
+    displayName: "BarChartRS",
+
+    getInitialState: function getInitialState() {
+        return {
+            width: this.props.width,
+            height: this.props.height,
+            margin: this.props.margin,
+            container: { width: 0, height: 0 }
+        };
+    },
+
+    drawBackground: function drawBackground() {
+        (0, _ChartFunctions.rect)(ctx, 0, 0, this.state.width, this.state.height, '#ccc');
+    },
+
+    drawTicks: function drawTicks() {
+        var grid = { color: 'rgba(255, 255, 255, 0.3)', weight: 2 };
+        max = Math.max.apply(Math, this.props.poll.options.map(function (obj) {
+            return obj.votes;
+        }));
+        var increment = void 0;
+        if (max > 100) {
+            increment = 20;
+        } else if (max > 10 && max < 100) {
+            increment = 10;
+        } else if (max < 10) {
+            increment = 1;
+        }
+
+        while (max % increment !== 0) {
+            max++;
+        }
+        var ticks = max / increment;
+        var tickHeight = (this.state.height - this.props.margin * 2) / ticks;
+        for (var i = 0; i <= ticks; i++) {
+            var next = tickHeight * i;
+            var int = max - increment * i;
+            var point = 10;
+            (0, _ChartFunctions.text)(ctx, int, 2, this.props.margin + next + point / 2, point + 'px', 'Arial', '#fff', 'right');
+            (0, _ChartFunctions.line)(ctx, this.props.margin / 2, this.props.margin + next, this.props.margin, this.props.margin + next, grid.color, grid.weight);
+        }
+    },
+
+    drawAxes: function drawAxes() {
+        var grid = { color: 'rgba(255, 255, 255, 0.7)', weight: 2 };
+        var xAxis = (0, _ChartFunctions.line)(ctx, this.props.margin, this.props.margin, this.props.margin, this.state.height - this.props.margin / 2, grid.color, grid.weight);
+        var yAxis = (0, _ChartFunctions.line)(ctx, this.props.margin / 2, this.state.height - this.props.margin, this.state.width - this.props.margin, this.state.height - this.props.margin, grid.color, grid.weight);
+    },
+
+    drawBars: function drawBars() {
+        var chartWidth = this.state.width - this.props.margin * 2;
+        var chartHeight = this.state.height - this.props.margin * 2;
+        var barArea = chartWidth / this.props.poll.options.length;
+        var barWidth = barArea - this.props.margin * 2;
+        var barY = this.state.height - this.props.margin;
+        for (var i = 0; i < this.props.poll.options.length; i++) {
+            var nextX = barArea * i;
+            max = Math.max.apply(Math, this.props.poll.options.map(function (obj) {
+                return obj.votes;
+            }));
+            var tick = chartHeight / max;
+            var barHeight = this.props.poll.options[i].votes * tick;
+            (0, _ChartFunctions.rect)(ctx, this.props.margin * 2 + nextX, barY - barHeight, barWidth, barHeight, color[i], '#fff'); //text(ctx, this.props.poll.options[i].votes, nextX + (barArea/2) + this.props.margin, this.state.height - this.props.margin - buffer, '16px',  'Arial', '#fff', 'center');
+        }
+    },
+
+    drawLabels: function drawLabels() {
+        var chartWidth = this.state.width - this.props.margin * 2;
+        var barArea = chartWidth / this.props.poll.options.length;
+        for (var i = 0; i < this.props.poll.options.length; i++) {
+            var textWidth = ctx.measureText(this.props.poll.options[i].text).width;
+            var nextBar = barArea * i;
+            var middle = (barArea - textWidth) / 2;
+            var buffer = 5;
+            (0, _ChartFunctions.text)(ctx, this.props.poll.options[i].text, this.props.margin * 2 + nextBar + middle / 2, this.state.height - buffer, '12px', 'Arial', '#fff', 'center');
+        }
+    },
+
+    draw: function draw() {
+        ctx.clearRect(0, 0, this.state.width, this.state.height);
+        this.drawBackground();
+        this.drawAxes();
+        this.drawTicks();
+        this.drawBars();
+        this.drawLabels();
+    },
+
+    componentDidMount: function componentDidMount() {
+        var divID = "div" + this.props.poll._id;
+        var canvas = this.refs[this.props.poll._id];
+        var div = this.refs[divID];
+        var dim = div.getBoundingClientRect(); //Dimensions
+        ctx = canvas.getContext('2d');
+        window.addEventListener('resize', this.handleResize, false);
+        this.setState({ container: { width: dim.width, height: dim.height } });
+        this.draw();
+    },
+
+    componentDidUpdate: function componentDidUpdate() {
+        var canvas = this.refs[this.props.poll._id];
+        ctx = canvas.getContext('2d');
+        window.addEventListener('resize', this.handleResize, false);
+        this.draw();
+    },
+
+    handleResize: function handleResize() {
+        var divID = "div" + this.props.poll._id;
+        var div = this.refs[divID];
+        var dim = div.getBoundingClientRect();
+        this.setState({ container: { width: dim.width, height: dim.height } });
+        var pW = this.props.width;
+        var cW = this.state.container.width;
+        var cH = this.state.container.height;
+        var aspRat = this.state.width / 4 * 3; //Aspect Ratio
+        this.setState({ width: cW < pW ? cW - 40 : pW });
+        this.setState({ height: aspRat < cH ? aspRat : cH });
+    },
+
+    render: function render() {
+
+        return _react2.default.createElement(
+            "div",
+            { ref: "div" + this.props.poll._id },
+            _react2.default.createElement("canvas", { className: "center-block", ref: this.props.poll._id, width: this.state.width, height: this.state.height })
+        );
+    }
+});
+
+module.exports = BarChartRS;
+
+},{"./ChartFunctions":233,"react":228}],233:[function(require,module,exports){
 'use strict';
 
 var Chart = {
@@ -35541,7 +35728,7 @@ var Chart = {
 
 module.exports = Chart;
 
-},{}],233:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35570,7 +35757,7 @@ var InfoColumn = React.createClass({
 
 module.exports = InfoColumn;
 
-},{"react":228}],234:[function(require,module,exports){
+},{"react":228}],235:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35626,7 +35813,7 @@ var Jumbotron = React.createClass({
 
 module.exports = Jumbotron;
 
-},{"react":228}],235:[function(require,module,exports){
+},{"react":228}],236:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -35693,7 +35880,7 @@ var Nav = React.createClass({
 
 module.exports = Nav;
 
-},{"react":228,"react-router":30}],236:[function(require,module,exports){
+},{"react":228,"react-router":30}],237:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -35711,6 +35898,10 @@ var _ChartFunctions = require("./ChartFunctions");
 var _BarChart = require("./BarChart");
 
 var _BarChart2 = _interopRequireDefault(_BarChart);
+
+var _BarChartRS = require("./BarChartRS");
+
+var _BarChartRS2 = _interopRequireDefault(_BarChartRS);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35802,10 +35993,6 @@ var Poll = _react2.default.createClass({
         this.getUser();
     },
 
-    componentDidUpdate: function componentDidUpdate() {
-        this.getUser();
-    },
-
     componentWillReceiveProps: function componentWillReceiveProps(newProps) {
         this.setState({ option: newProps.poll.options[0].text });
     },
@@ -35828,7 +36015,7 @@ var Poll = _react2.default.createClass({
                 { className: "text-center" },
                 "Click to toggle Chart view"
             ),
-            _react2.default.createElement(_BarChart2.default, { className: "center-block", poll: this.props.poll, width: 600, height: 300, margin: 20 })
+            _react2.default.createElement(_BarChartRS2.default, { className: "center-block", poll: this.props.poll, width: 600, height: 300, margin: 20 })
         ) : _react2.default.createElement(
             "div",
             { className: "dataViz col-xs-8", onClick: this.toggleChart },
@@ -35946,7 +36133,7 @@ var Poll = _react2.default.createClass({
 
 module.exports = Poll;
 
-},{"./BarChart":231,"./ChartFunctions":232,"jquery":2,"react":228,"react-router":30}],237:[function(require,module,exports){
+},{"./BarChart":231,"./BarChartRS":232,"./ChartFunctions":233,"jquery":2,"react":228,"react-router":30}],238:[function(require,module,exports){
 'use strict';
 
 var React = require("react");
@@ -36056,7 +36243,7 @@ var PollForm = React.createClass({
 
 module.exports = PollForm;
 
-},{"react":228}],238:[function(require,module,exports){
+},{"react":228}],239:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -36146,7 +36333,7 @@ var PollPage = React.createClass({
 
 module.exports = PollPage;
 
-},{"./Nav":235,"./Poll":236,"jquery":2,"react":228,"react-dom":3}],239:[function(require,module,exports){
+},{"./Nav":236,"./Poll":237,"jquery":2,"react":228,"react-dom":3}],240:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -36335,7 +36522,7 @@ var ReactApp = React.createClass({
 
 module.exports = ReactApp;
 
-},{"./InfoColumn":233,"./Jumbotron":234,"./Nav":235,"./Poll":236,"./PollForm":237,"./Subotron":240,"jquery":2,"react":228,"react-router":30}],240:[function(require,module,exports){
+},{"./InfoColumn":234,"./Jumbotron":235,"./Nav":236,"./Poll":237,"./PollForm":238,"./Subotron":241,"jquery":2,"react":228,"react-router":30}],241:[function(require,module,exports){
 "use strict";
 
 var React = require("react");

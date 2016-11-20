@@ -3,6 +3,7 @@ import {Router, Route, Link}  from "react-router";
 import $     from 'jquery';
 import {rect, line, text} from "./ChartFunctions";
 import BarChart from './BarChart';
+import BarChartRS from './BarChartRS';
 
 let APP_URL = 'https://urt-voting-app-jeremylshepherd.c9users.io/';
 
@@ -90,10 +91,6 @@ var Poll = React.createClass({
         this.getUser();
     },
     
-    componentDidUpdate: function() {
-        this.getUser();
-    },
-    
     componentWillReceiveProps: function(newProps) {
         this.setState({option: newProps.poll.options[0].text});
     },
@@ -107,7 +104,7 @@ var Poll = React.createClass({
         let dataViz = this.state.chart ? 
             (<div className="dataViz col-xs-8" onClick={this.toggleChart}>
                 <p className="text-center">Click to toggle Chart view</p>
-                <BarChart className='center-block' poll={this.props.poll} width={600} height={300} margin={20}/>
+                <BarChartRS className='center-block' poll={this.props.poll} width={600} height={300} margin={20}/>
             </div>) : 
             (<div className="dataViz col-xs-8" onClick={this.toggleChart}>
                 <p className="text-center">Click to toggle Chart view</p>
