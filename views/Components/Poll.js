@@ -14,7 +14,8 @@ var Poll = React.createClass({
             owner: false,
             chart: true,
             option: this.props.poll.options[0].text,
-            customOption: ''
+            customOption: '',
+            auth: false
         });
     },
     
@@ -46,6 +47,7 @@ var Poll = React.createClass({
           dataType: 'json',
           cache: false,
           success: function(data) {
+              this.setState({auth: true});
               if(this.props.poll.author == data._id){
                 this.setState({
                     owner: true,
@@ -129,7 +131,8 @@ var Poll = React.createClass({
         let custom = this.state.customOption ? 
             (<div className="form-group"><input className="form-control col-xs-8" type="text" placeholder='Custom Option' value={this.state.customOption} onChange={this.handleCustomInput}/><span className="btn btn-danger col-xs-4" onClick={this.cancelCustom}>Cancel</span></div>) : 
             (<h5 onClick={this.handleCustom}>Click here to create your own option</h5>);
-        
+        let noAuth = <span></span>;
+        let showCustom = this.state.auth ? custom : noAuth;
         //Twitter share button
             let tweetString = `https://twitter.com/intent/tweet?text=Hey, check out my new poll. ${this.props.poll.title}&url=${APP_URL}/poll/${this.props.poll._id}`;
             let tweet = encodeURI(tweetString);
@@ -144,7 +147,7 @@ var Poll = React.createClass({
                     <div className="panel-body">
                         <div className="row">
                             <div className="col-xs-3">
-                                {custom}
+                                {showCustom}
                                 <select className="col-xs-12" ref="select" onChange={this.handleOption}>
                                     {vote}
                                 </select>

@@ -35726,7 +35726,8 @@ var Poll = _react2.default.createClass({
             owner: false,
             chart: true,
             option: this.props.poll.options[0].text,
-            customOption: ''
+            customOption: '',
+            auth: false
         };
     },
 
@@ -35758,6 +35759,7 @@ var Poll = _react2.default.createClass({
             dataType: 'json',
             cache: false,
             success: function (data) {
+                this.setState({ auth: true });
                 if (this.props.poll.author == data._id) {
                     this.setState({
                         owner: true,
@@ -35874,7 +35876,8 @@ var Poll = _react2.default.createClass({
             { onClick: this.handleCustom },
             "Click here to create your own option"
         );
-
+        var noAuth = _react2.default.createElement("span", null);
+        var showCustom = this.state.auth ? custom : noAuth;
         //Twitter share button
         var tweetString = "https://twitter.com/intent/tweet?text=Hey, check out my new poll. " + this.props.poll.title + "&url=" + APP_URL + "/poll/" + this.props.poll._id;
         var tweet = encodeURI(tweetString);
@@ -35906,7 +35909,7 @@ var Poll = _react2.default.createClass({
                         _react2.default.createElement(
                             "div",
                             { className: "col-xs-3" },
-                            custom,
+                            showCustom,
                             _react2.default.createElement(
                                 "select",
                                 { className: "col-xs-12", ref: "select", onChange: this.handleOption },
