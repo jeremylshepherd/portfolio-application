@@ -4,8 +4,12 @@
   "description": "Free Code Camp Voting Application.",
   "main": "server.js",
   "repository": "",
+  "engines": {
+    "node": "4.4.5"
+  }
   "scripts": {
-    "start": "gulp && mongod --smallfiles && node server.js"
+    "start": "mongod --smallfiles && node server.js",
+    "postinstall": "gulp"
   },
   "author": "Jeremy L. Shepherd <jeremylshepherd@gmail.com>",
   "dependencies": {
