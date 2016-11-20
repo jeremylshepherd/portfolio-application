@@ -18609,15 +18609,6 @@ var max = void 0,
 var BarChart = _react2.default.createClass({
     displayName: "BarChart",
 
-    getInitialState: function getInitialState() {
-        return {
-            width: this.props.width,
-            height: this.props.height,
-            margin: this.props.margin,
-            container: { width: 0, height: 0 }
-        };
-    },
-
     drawBackground: function drawBackground() {
         (0, _ChartFunctions.rect)(ctx, 0, 0, this.props.width, this.props.height, '#ccc');
     },
@@ -18695,52 +18686,20 @@ var BarChart = _react2.default.createClass({
     },
 
     componentDidMount: function componentDidMount() {
-        var divID = "div" + this.props.poll._id;
         var canvas = this.refs[this.props.poll._id];
-        var div = this.refs[divID];
-        var dim = div.getBoundingClientRect();
         ctx = canvas.getContext('2d');
-        window.addEventListener('resize', this.handleResize, false);
-        this.setState({ container: { width: dim.width, height: dim.height } });
         this.draw();
     },
 
     componentDidUpdate: function componentDidUpdate() {
         var canvas = this.refs[this.props.poll._id];
         ctx = canvas.getContext('2d');
-        window.addEventListener('resize', this.handleResize, false);
         this.draw();
-    },
-
-    // componentWillUpdate:function() {
-    //     let divID = `div${this.props.poll._id}`;
-    //     let canvas = this.refs[this.props.poll._id];
-    //     let div = this.refs[divID];
-    //     let dim = div.getBoundingClientRect();
-    //     ctx = canvas.getContext('2d');
-    //     window.addEventListener('resize', this.handleResize, false);
-    //     this.setState({container: {width: dim.width, height: dim.height}});
-    //     this.draw();
-    // },
-
-    handleResize: function handleResize() {
-        var divID = "div" + this.props.poll._id;
-        var div = this.refs[divID];
-        var dim = div.getBoundingClientRect();
-        this.setState({ container: { width: dim.width, height: dim.height } });
-        var pW = this.props.width;
-        var cW = this.state.container.width;
-        this.setState({ width: cW < pW ? cW - 40 : pW });
-        this.setState({ height: this.state.width / 4 * 3 });
     },
 
     render: function render() {
 
-        return _react2.default.createElement(
-            "div",
-            { ref: "div" + this.props.poll._id },
-            _react2.default.createElement("canvas", { className: "center-block", ref: this.props.poll._id, width: this.state.width, height: this.state.height })
-        );
+        return _react2.default.createElement("canvas", { className: "center-block", ref: this.props.poll._id, width: this.props.width, height: this.props.height });
     }
 });
 
@@ -19109,8 +19068,6 @@ var _BarChartRS2 = _interopRequireDefault(_BarChartRS);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var APP_URL = 'https://urt-voting-app-jeremylshepherd.c9users.io/';
-
 var Poll = _react2.default.createClass({
     displayName: "Poll",
 
@@ -19122,7 +19079,8 @@ var Poll = _react2.default.createClass({
             chart: true,
             option: this.props.poll.options[0].text,
             customOption: '',
-            auth: false
+            auth: false,
+            baseURL: ''
         };
     },
 
@@ -19193,6 +19151,9 @@ var Poll = _react2.default.createClass({
     },
 
     componentDidMount: function componentDidMount() {
+        var thisURLSplit = window.location.href.split('/');
+        var baseURL = thisURLSplit[2];
+        this.setState({ baseURL: 'https://' + baseURL });
         this.setState({ option: this.props.poll.options[0].text });
         this.getUser();
     },
@@ -19270,7 +19231,7 @@ var Poll = _react2.default.createClass({
         var noAuth = _react2.default.createElement("span", null);
         var showCustom = this.state.auth ? custom : noAuth;
         //Twitter share button
-        var tweetString = "https://twitter.com/intent/tweet?text=Hey, check out my new poll. " + this.props.poll.title + "&url=" + APP_URL + "/poll/" + this.props.poll._id;
+        var tweetString = "https://twitter.com/intent/tweet?text=Hey, check out my new poll. " + this.props.poll.title + "&url=" + this.state.baseURL + "/poll/" + this.props.poll._id;
         var tweet = encodeURI(tweetString);
         return _react2.default.createElement(
             "div",

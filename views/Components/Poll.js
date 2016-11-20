@@ -5,8 +5,6 @@ import {rect, line, text} from "./ChartFunctions";
 import BarChart from './BarChart';
 import BarChartRS from './BarChartRS';
 
-let APP_URL = 'https://urt-voting-app-jeremylshepherd.c9users.io/';
-
 var Poll = React.createClass({
     getInitialState: function() {
         return ({
@@ -16,7 +14,8 @@ var Poll = React.createClass({
             chart: true,
             option: this.props.poll.options[0].text,
             customOption: '',
-            auth: false
+            auth: false,
+            baseURL: ''
         });
     },
     
@@ -87,6 +86,9 @@ var Poll = React.createClass({
     },
     
     componentDidMount: function() {
+        let thisURLSplit = window.location.href.split('/');
+        let baseURL = thisURLSplit[2];
+        this.setState({baseURL: 'https://' + baseURL});
         this.setState({option: this.props.poll.options[0].text});
         this.getUser();
     },
@@ -131,7 +133,7 @@ var Poll = React.createClass({
         let noAuth = <span></span>;
         let showCustom = this.state.auth ? custom : noAuth;
         //Twitter share button
-            let tweetString = `https://twitter.com/intent/tweet?text=Hey, check out my new poll. ${this.props.poll.title}&url=${APP_URL}/poll/${this.props.poll._id}`;
+            let tweetString = `https://twitter.com/intent/tweet?text=Hey, check out my new poll. ${this.props.poll.title}&url=${this.state.baseURL}/poll/${this.props.poll._id}`;
             let tweet = encodeURI(tweetString);
         return (
             <div className="col-xs-12">
