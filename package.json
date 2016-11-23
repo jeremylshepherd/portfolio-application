@@ -30,6 +30,7 @@
     "express": "^4.14.0",
     "express-flash": "0.0.2",
     "express-session": "^1.14.0",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-reactify": "^3.0.1",

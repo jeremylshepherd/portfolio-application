@@ -12,10 +12,11 @@ var Poll = React.createClass({
             id: this.props.id,
             owner: false,
             chart: true,
-            option: this.props.poll.options[0].text,
+            option: '',
             customOption: '',
             auth: false,
-            baseURL: ''
+            baseURL: '',
+            poll: this.props.poll
         });
     },
     
@@ -25,17 +26,17 @@ var Poll = React.createClass({
         obj.option = this.state.option;
         console.log(obj);
         $.ajax({
-          url: '/api/vote/' + this.props.poll._id,
+          url: '/api/vote/' + this.state.poll._id,
           dataType: 'json',
           type: 'POST',
           data: obj,
           success: function(data) {
               console.log('success');
-              this.setState({option: this.props.poll.options[0].text});
+              this.setState({option: this.state.poll.options[0].text});
               this.setState({customOption: ''});
           }.bind(this),
           error: function(xhr, status, err) {
-            console.error('/api/vote/' + this.props.poll._id, status, err.toString());
+            console.error('/api/vote/' + this.state.poll._id, status, err.toString());
           }.bind(this)
         });
         console.log('Vote ended');
@@ -48,7 +49,7 @@ var Poll = React.createClass({
           cache: false,
           success: function(data) {
               this.setState({auth: true});
-              if(this.props.poll.author == data._id){
+              if(this.state.poll.author == data._id){
                 this.setState({
                     owner: true,
                     userId: data._id
@@ -62,7 +63,7 @@ var Poll = React.createClass({
     },
     
     handleDelete: function() {
-        this.props.del(this.props.poll._id);  
+        this.props.del(this.state.poll._id);  
     },
     
     handleOption: function(e) {
@@ -89,16 +90,17 @@ var Poll = React.createClass({
         let thisURLSplit = window.location.href.split('/');
         let baseURL = thisURLSplit[2];
         this.setState({baseURL: 'https://' + baseURL});
-        this.setState({option: this.props.poll.options[0].text});
+        this.setState({option: this.state.poll.options[0].text});
         this.getUser();
     },
     
     componentWillReceiveProps: function(newProps) {
+        this.setState({poll : newProps.poll});
         this.setState({option: newProps.poll.options[0].text});
     },
     
     render: function() {
-        let optionNodes = this.props.poll.options.map((option, i) => {
+        let optionNodes = this.state.poll.options.map((option, i) => {
             return (
                 <li key={i}>{option.text}: {option.votes}</li>  
             );
@@ -106,14 +108,14 @@ var Poll = React.createClass({
         let dataViz = this.state.chart ? 
             (<div className="dataViz col-xs-8" onClick={this.toggleChart}>
                 <p className="text-center">Click to toggle Chart view</p>
-                <BarChartRS className='center-block' poll={this.props.poll} width={600} height={300} margin={20}/>
+                <BarChartRS className='center-block' poll={this.state.poll} width={600} height={300} margin={20}/>
             </div>) : 
             (<div className="dataViz col-xs-8" onClick={this.toggleChart}>
                 <p className="text-center">Click to toggle Chart view</p>
                 <ul>{optionNodes}</ul>
             </div>);
             
-        let vote = this.props.poll.options.map((opt, i) => {
+        let vote = this.state.poll.options.map((opt, i) => {
             return (
                 <option key={i} value={opt.text}>{opt.text}</option>
             );
@@ -133,14 +135,14 @@ var Poll = React.createClass({
         let noAuth = <span></span>;
         let showCustom = this.state.auth ? custom : noAuth;
         //Twitter share button
-            let tweetString = `https://twitter.com/intent/tweet?text=Hey, check out my new poll. ${this.props.poll.title}&url=${this.state.baseURL}/poll/${this.props.poll._id}`;
+            let tweetString = `https://twitter.com/intent/tweet?text=Hey, check out my new poll. ${this.state.poll.title}&url=${this.state.baseURL}/poll/${this.state.poll._id}`;
             let tweet = encodeURI(tweetString);
         return (
             <div className="col-xs-12">
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        <Link to={`/poll/${this.props.poll._id}`}>
-                            <h4 className="panel-title">{this.props.poll.title}</h4>
+                        <Link to={`/poll/${this.state.poll._id}`}>
+                            <h4 className="panel-title">{this.state.poll.title}</h4>
                         </Link>
                     </div>
                     <div className="panel-body">

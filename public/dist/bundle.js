@@ -35243,7 +35243,7 @@ _reactDom2.default.render(_react2.default.createElement(
     _react2.default.createElement(_reactRouter.Route, { path: "/poll/:poll", component: _PollPage2.default })
 ), app);
 
-},{"../views/Components/AllPolls.js":230,"../views/Components/PollPage.js":239,"../views/Components/ReactApp.js":240,"react":228,"react-dom":3,"react-router":30}],230:[function(require,module,exports){
+},{"../views/Components/AllPolls.js":230,"../views/Components/PollPage.js":240,"../views/Components/ReactApp.js":241,"react":228,"react-dom":3,"react-router":30}],230:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -35251,6 +35251,7 @@ var React = require("react"),
     Poll = require("./Poll"),
     Link = require('react-router').Link,
     Nav = require("./Nav"),
+    Footer = require("./Footer"),
     $ = require('jquery');
 
 var AllPolls = React.createClass({
@@ -35291,7 +35292,8 @@ var AllPolls = React.createClass({
                 });
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error('/api/me', status, err.toString());
+                console.log('No user logged in.');
+                //console.error('/api/me', status, err.toString());
             }.bind(this)
         });
     },
@@ -35304,7 +35306,7 @@ var AllPolls = React.createClass({
                 this.loadPolls();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error('/api/' + id + '/delete', status, err.toString());
+                console.error('/api/delete/' + id, status, err.toString());
             }.bind(this)
         });
     },
@@ -35380,14 +35382,15 @@ var AllPolls = React.createClass({
                 { className: "container" },
                 view,
                 nodes
-            )
+            ),
+            React.createElement(Footer, null)
         );
     }
 });
 
 module.exports = AllPolls;
 
-},{"./Nav":236,"./Poll":237,"jquery":2,"react":228,"react-dom":3,"react-router":30}],231:[function(require,module,exports){
+},{"./Footer":234,"./Nav":237,"./Poll":238,"jquery":2,"react":228,"react-dom":3,"react-router":30}],231:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -35693,6 +35696,48 @@ module.exports = Chart;
 },{}],234:[function(require,module,exports){
 "use strict";
 
+var React = require("react"),
+    Link = require("react-router").Link;
+
+var Footer = React.createClass({
+    displayName: "Footer",
+
+    render: function render() {
+        return React.createElement(
+            "footer",
+            { className: "navbar navbar-inverse navbar-fixed-bottom" },
+            React.createElement(
+                "div",
+                { className: "container" },
+                React.createElement(
+                    "a",
+                    { href: "http://twitter.com/jeremylshepherd" },
+                    React.createElement(
+                        "h1",
+                        { className: "navbar-brand" },
+                        "@Jeremy L Shepherd"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "navbar-right" },
+                    React.createElement(
+                        "h4",
+                        { className: "navbar-text navbar-right" },
+                        "...in partial completion of Backend Certification.",
+                        React.createElement("i", { className: "fa fa-free-code-camp fa-3x", "aria-hidden": "true" })
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = Footer;
+
+},{"react":228,"react-router":30}],235:[function(require,module,exports){
+"use strict";
+
 var React = require("react");
 
 var InfoColumn = React.createClass({
@@ -35719,7 +35764,7 @@ var InfoColumn = React.createClass({
 
 module.exports = InfoColumn;
 
-},{"react":228}],235:[function(require,module,exports){
+},{"react":228}],236:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35775,7 +35820,7 @@ var Jumbotron = React.createClass({
 
 module.exports = Jumbotron;
 
-},{"react":228}],236:[function(require,module,exports){
+},{"react":228}],237:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -35812,7 +35857,7 @@ var Nav = React.createClass({
         );
         return React.createElement(
             "nav",
-            { className: "navbar navbar-inverse" },
+            { className: "navbar navbar-inverse navbar-static-top" },
             React.createElement(
                 "div",
                 { className: "container" },
@@ -35823,7 +35868,8 @@ var Nav = React.createClass({
                         "h1",
                         { className: "navbar-brand" },
                         "FCC Voting App"
-                    )
+                    ),
+                    React.createElement("i", { className: "fa fa-free-code-camp fa-3x", "aria-hidden": "true" })
                 ),
                 React.createElement(
                     "ul",
@@ -35846,7 +35892,7 @@ var Nav = React.createClass({
 
 module.exports = Nav;
 
-},{"react":228,"react-router":30}],237:[function(require,module,exports){
+},{"react":228,"react-router":30}],238:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -35880,10 +35926,11 @@ var Poll = _react2.default.createClass({
             id: this.props.id,
             owner: false,
             chart: true,
-            option: this.props.poll.options[0].text,
+            option: '',
             customOption: '',
             auth: false,
-            baseURL: ''
+            baseURL: '',
+            poll: this.props.poll
         };
     },
 
@@ -35893,17 +35940,17 @@ var Poll = _react2.default.createClass({
         obj.option = this.state.option;
         console.log(obj);
         _jquery2.default.ajax({
-            url: '/api/vote/' + this.props.poll._id,
+            url: '/api/vote/' + this.state.poll._id,
             dataType: 'json',
             type: 'POST',
             data: obj,
             success: function (data) {
                 console.log('success');
-                this.setState({ option: this.props.poll.options[0].text });
+                this.setState({ option: this.state.poll.options[0].text });
                 this.setState({ customOption: '' });
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error('/api/vote/' + this.props.poll._id, status, err.toString());
+                console.error('/api/vote/' + this.state.poll._id, status, err.toString());
             }.bind(this)
         });
         console.log('Vote ended');
@@ -35916,7 +35963,7 @@ var Poll = _react2.default.createClass({
             cache: false,
             success: function (data) {
                 this.setState({ auth: true });
-                if (this.props.poll.author == data._id) {
+                if (this.state.poll.author == data._id) {
                     this.setState({
                         owner: true,
                         userId: data._id
@@ -35930,7 +35977,7 @@ var Poll = _react2.default.createClass({
     },
 
     handleDelete: function handleDelete() {
-        this.props.del(this.props.poll._id);
+        this.props.del(this.state.poll._id);
     },
 
     handleOption: function handleOption(e) {
@@ -35957,16 +36004,17 @@ var Poll = _react2.default.createClass({
         var thisURLSplit = window.location.href.split('/');
         var baseURL = thisURLSplit[2];
         this.setState({ baseURL: 'https://' + baseURL });
-        this.setState({ option: this.props.poll.options[0].text });
+        this.setState({ option: this.state.poll.options[0].text });
         this.getUser();
     },
 
     componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+        this.setState({ poll: newProps.poll });
         this.setState({ option: newProps.poll.options[0].text });
     },
 
     render: function render() {
-        var optionNodes = this.props.poll.options.map(function (option, i) {
+        var optionNodes = this.state.poll.options.map(function (option, i) {
             return _react2.default.createElement(
                 "li",
                 { key: i },
@@ -35983,7 +36031,7 @@ var Poll = _react2.default.createClass({
                 { className: "text-center" },
                 "Click to toggle Chart view"
             ),
-            _react2.default.createElement(_BarChartRS2.default, { className: "center-block", poll: this.props.poll, width: 600, height: 300, margin: 20 })
+            _react2.default.createElement(_BarChartRS2.default, { className: "center-block", poll: this.state.poll, width: 600, height: 300, margin: 20 })
         ) : _react2.default.createElement(
             "div",
             { className: "dataViz col-xs-8", onClick: this.toggleChart },
@@ -35999,7 +36047,7 @@ var Poll = _react2.default.createClass({
             )
         );
 
-        var vote = this.props.poll.options.map(function (opt, i) {
+        var vote = this.state.poll.options.map(function (opt, i) {
             return _react2.default.createElement(
                 "option",
                 { key: i, value: opt.text },
@@ -36034,7 +36082,7 @@ var Poll = _react2.default.createClass({
         var noAuth = _react2.default.createElement("span", null);
         var showCustom = this.state.auth ? custom : noAuth;
         //Twitter share button
-        var tweetString = "https://twitter.com/intent/tweet?text=Hey, check out my new poll. " + this.props.poll.title + "&url=" + this.state.baseURL + "/poll/" + this.props.poll._id;
+        var tweetString = "https://twitter.com/intent/tweet?text=Hey, check out my new poll. " + this.state.poll.title + "&url=" + this.state.baseURL + "/poll/" + this.state.poll._id;
         var tweet = encodeURI(tweetString);
         return _react2.default.createElement(
             "div",
@@ -36047,11 +36095,11 @@ var Poll = _react2.default.createClass({
                     { className: "panel-heading" },
                     _react2.default.createElement(
                         _reactRouter.Link,
-                        { to: "/poll/" + this.props.poll._id },
+                        { to: "/poll/" + this.state.poll._id },
                         _react2.default.createElement(
                             "h4",
                             { className: "panel-title" },
-                            this.props.poll.title
+                            this.state.poll.title
                         )
                     )
                 ),
@@ -36101,7 +36149,7 @@ var Poll = _react2.default.createClass({
 
 module.exports = Poll;
 
-},{"./BarChart":231,"./BarChartRS":232,"./ChartFunctions":233,"jquery":2,"react":228,"react-router":30}],238:[function(require,module,exports){
+},{"./BarChart":231,"./BarChartRS":232,"./ChartFunctions":233,"jquery":2,"react":228,"react-router":30}],239:[function(require,module,exports){
 'use strict';
 
 var React = require("react");
@@ -36211,13 +36259,14 @@ var PollForm = React.createClass({
 
 module.exports = PollForm;
 
-},{"react":228}],239:[function(require,module,exports){
+},{"react":228}],240:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
     ReactDOM = require("react-dom"),
     Poll = require("./Poll"),
     Nav = require("./Nav"),
+    Footer = require("./Footer"),
     $ = require('jquery');
 
 var PollPage = React.createClass({
@@ -36265,7 +36314,7 @@ var PollPage = React.createClass({
     componentDidMount: function componentDidMount() {
         this.getPoll();
         this.getUser();
-        this.checkPeriodically = setInterval(this.getPoll, 10000);
+        //this.checkPeriodically = setInterval(this.getPoll, 10000);
     },
 
     deletePoll: function deletePoll(id) {
@@ -36282,7 +36331,7 @@ var PollPage = React.createClass({
     },
 
     componentWillUnmount: function componentWillUnmount() {
-        clearInterval(this.checkPeriodically);
+        //clearInterval(this.checkPeriodically);
     },
 
     render: function render() {
@@ -36294,18 +36343,20 @@ var PollPage = React.createClass({
                 "div",
                 { className: "container" },
                 React.createElement(Poll, { key: 0, poll: this.state.poll, del: this.deletePoll })
-            )
+            ),
+            React.createElement(Footer, null)
         );
     }
 });
 
 module.exports = PollPage;
 
-},{"./Nav":236,"./Poll":237,"jquery":2,"react":228,"react-dom":3}],240:[function(require,module,exports){
+},{"./Footer":234,"./Nav":237,"./Poll":238,"jquery":2,"react":228,"react-dom":3}],241:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
     Nav = require("./Nav"),
+    Footer = require("./Footer"),
     Jumbotron = require("./Jumbotron"),
     Subotron = require("./Subotron"),
     Poll = require('./Poll'),
@@ -36483,14 +36534,15 @@ var ReactApp = React.createClass({
                 "div",
                 { className: "container" },
                 pollNodes
-            )
+            ),
+            React.createElement(Footer, null)
         );
     }
 });
 
 module.exports = ReactApp;
 
-},{"./InfoColumn":234,"./Jumbotron":235,"./Nav":236,"./Poll":237,"./PollForm":238,"./Subotron":241,"jquery":2,"react":228,"react-router":30}],241:[function(require,module,exports){
+},{"./Footer":234,"./InfoColumn":235,"./Jumbotron":236,"./Nav":237,"./Poll":238,"./PollForm":239,"./Subotron":242,"jquery":2,"react":228,"react-router":30}],242:[function(require,module,exports){
 "use strict";
 
 var React = require("react");

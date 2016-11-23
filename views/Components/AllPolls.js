@@ -3,6 +3,7 @@ var React = require("react"),
     Poll = require("./Poll"),
     Link = require('react-router').Link,
     Nav = require("./Nav"),
+    Footer = require("./Footer"),
     $ = require('jquery');
     
     
@@ -26,7 +27,7 @@ var AllPolls = React.createClass({
               });
           }.bind(this),
           error: function(xhr, status, err) {
-            console.error('/api/polls', status, err.toString());
+             console.error('/api/polls', status, err.toString());
           }.bind(this)
         });
     },
@@ -42,7 +43,8 @@ var AllPolls = React.createClass({
                 });
             }.bind(this),
             error: function(xhr, status, err) {
-              console.error('/api/me', status, err.toString());
+                console.log('No user logged in.');
+              //console.error('/api/me', status, err.toString());
             }.bind(this)
         });
     },
@@ -55,7 +57,7 @@ var AllPolls = React.createClass({
               this.loadPolls();
           }.bind(this),
           error: function(xhr, status, err) {
-            console.error('/api/' + id + '/delete', status, err.toString());
+            console.error('/api/delete/' + id, status, err.toString());
           }.bind(this)
         });
     },
@@ -105,6 +107,7 @@ var AllPolls = React.createClass({
                     {view}
                     {nodes}
                 </div>
+                <Footer />
             </div>
         );
     }    

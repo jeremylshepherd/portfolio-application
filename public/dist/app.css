@@ -237,6 +237,9 @@ fieldset[disabled] .btn-linkedIn.active {
   font-size: 30px;
   margin-right: -330px; }
 
+body {
+  padding-bottom: 70px; }
+
 a,
 a:hover {
   text-decoration: none;
@@ -247,6 +250,9 @@ li {
 
 .navbar-btn {
   margin-top: 25px; }
+
+.fa-free-code-camp {
+  color: #fff; }
 
 .jumbotron {
   background: #337AB7;

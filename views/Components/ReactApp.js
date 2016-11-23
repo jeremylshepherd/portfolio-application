@@ -1,5 +1,6 @@
 var React = require("react"),
     Nav = require("./Nav"),
+    Footer = require("./Footer"),
     Jumbotron = require("./Jumbotron"),
     Subotron = require("./Subotron"),
     Poll = require('./Poll'),
@@ -139,6 +140,7 @@ var ReactApp = React.createClass({
                 <Jumbotron displayName={this.state.displayName}/>
                 <div className="container">{subheading}</div>
                 <div className="container">{pollNodes}</div>
+                <Footer />
             </div>
         );
     }

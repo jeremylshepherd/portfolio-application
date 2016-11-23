@@ -14,12 +14,13 @@ var Nav = React.createClass({
             </div>
         );
         return (
-            <nav className="navbar navbar-inverse">
+            <nav className="navbar navbar-inverse navbar-static-top">
               <div className="container">
                 <Link to='/'>
                     <h1 className="navbar-brand">
                         FCC Voting App
                     </h1>
+                    <i className="fa fa-free-code-camp fa-3x" aria-hidden="true"></i>
                 </Link>
                 <ul className="nav navbar-nav">
                     <li><Link to='/polls'>All Polls</Link></li>

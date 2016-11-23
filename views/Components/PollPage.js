@@ -2,6 +2,7 @@ var React = require("react"),
     ReactDOM = require("react-dom"),
     Poll = require("./Poll"),
     Nav = require("./Nav"),
+    Footer = require("./Footer"),
     $ = require('jquery');
 
     
@@ -48,7 +49,7 @@ var PollPage = React.createClass({
     componentDidMount: function() {
         this.getPoll();
         this.getUser();
-        this.checkPeriodically = setInterval(this.getPoll, 10000);
+        //this.checkPeriodically = setInterval(this.getPoll, 10000);
     },
     
     deletePoll: function(id) {
@@ -65,7 +66,7 @@ var PollPage = React.createClass({
     },
     
     componentWillUnmount: function() {
-        clearInterval(this.checkPeriodically);
+        //clearInterval(this.checkPeriodically);
     },
     
     render: function() {
@@ -75,6 +76,7 @@ var PollPage = React.createClass({
                 <div className="container">
                     <Poll key={0} poll={this.state.poll} del={this.deletePoll}/>
                 </div>
+                <Footer />
             </div>
         );
     }    
