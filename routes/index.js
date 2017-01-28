@@ -7,12 +7,12 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/Users');
-var Poll = require('../models/Polls');
+var Project = require('../models/Projects');
 var React = require("react");
 var ReactDOMServer = require("react-dom/server");
-var ReactApp = require("../views/Components/ReactApp");
-var PollPage = require("../views/Components/PollPage");
+var PortfolioApp = require("../views/Components/PortfolioApp");
 var passport = require("passport");
+var cors = require('cors');
 
 require("../config/passport");
 
@@ -65,81 +65,82 @@ router.get('/api/me', isLoggedIn, (req, res) => {
     }
 });
 
-router.post('/api/newpoll', isLoggedIn, (req, res) => {
+router.post('/api/newproject', isLoggedIn, (req, res) => {
   User.findOne({'github.username' : req.user.github.username}, (err, user) => {
       if(err){res.json(err);}
-      var poll = new Poll({
+      var project = new Project({
           title: req.body.title,
-          author: user._id,
-          options: req.body.options
+          creator: user._id,
+          user: req.user.github.username,
+          description: req.body.description,
+          url: req.body.url,
+          repo: req.body.repo,
+          img: req.body.img,
+          type: req.body.type,
+          technologies: req.body.technologies
       });
-      poll.save((err) => {
+      project.save((err) => {
           if(err) {console.log(err);}
-          console.log('Poll saved!');
+          console.log('Project saved!');
+          res.json({message: 'Project saved!'});
       });
   });
 });
 
-
-router.post('/api/vote/:poll', (req, res) => {
-    let query = {'_id' : req.params.poll,'options.text' : req.body.option};
-    let update = {$inc: {'options.$.votes' : 1}};
-    Poll.findOneAndUpdate(query, update, {new: true, upsert: true},(err, poll) => {
-      if(poll) {
-          res.json(poll);
-      }else {
-          Poll.findOne({'_id' : req.params.poll}, (err, poll) => {
-              if(err) {res.json(err);}
-              poll.options.push({text: req.body.option, votes: 1});
-              poll.save();
-              res.json(poll);
-          });
-      }
-    });
-});
-
-router.get('/api/polls', (req, res) => {
-    Poll.find((err,polls) => {
+router.get('/api/:username/projects', cors(), (req, res) => {
+    Project.find({'user': req.params.username}, (err, projects) => {
         if(err) {console.log(err);}
-        res.json(polls);
+        res.json(projects);
     });
 });
 
-router.get('/api/poll/:poll', (req, res) => {
-    Poll.findOne({'_id' : req.params.poll}, (err, poll) => {
-       if(err){res.json(err);}
-       res.json(poll);
+router.get('/api/:userID/projects', (req, res) => {
+    var query = {'creator' : req.params.userID};
+    Project.find(query, (err, projects) => {
+        if(err) {console.log(err);}
+        res.json(projects);
     });
 });
 
-
-router.get('/api/:user/polls', isLoggedIn, (req, res) => {
-    User.findOne({'github.username': req.params.user}, (err, user) => {
-        if(err){res.json(err);}
-        Poll.find({'author': user._id}, (err, polls) => {
-            if(err){res.json(err);}
-            res.json(polls);
-        });
+router.get('/api/user/myprojects', isLoggedIn, (req, res) => {
+    var query = {'creator' : req.user._id};
+    Project.find(query, (err, projects) => {
+        if(err) {console.log(err);}
+        res.json(projects);
     });
 });
 
-router.delete('/api/delete/:poll', isLoggedIn, (req, res) => {
-   Poll.findOne({'_id' : req.params.poll}, (err, poll) => {
-       if(err) {res.json(err);}
-       if(poll.author.toString() === req.user._id.toString()){
-           poll.remove();
-           console.log('record removed.');
-           res.json({message: "Farewell, old friend."});
-       }else{
-          res.json({taunt: "Ah! You all went behind 'uh ear, Daniel-son!", message: "You may only delete your own polls"});
-       }
-   });
+router.get('/api/projects', cors(), (req, res) => {
+    Project.find((err,projects) => {
+        if(err) {console.log(err);}
+        res.json(projects);
+    });
 });
 
+router.get('/api/project/:project', cors(), isLoggedIn, (req, res) => {
+    Project.findOne({'_id' : req.params.project},(err,project) => {
+        if(err) {console.log(err);}
+        res.json(project);
+    });
+});
+
+router.delete('/api/delete/:project', isLoggedIn, (req, res) => {
+    Project.findOne({'_id' : req.params.project},(err,project) => {
+        console.log(project.creator);
+        if(err) {console.log(err);}
+        if(project.creator.toString() === req.user._id.toString()){
+            project.remove();
+            console.log('record removed.');
+            res.json({message: "Farewell, old friend."});
+        }else{
+            res.json({taunt: "Ah! You all went behind 'uh ear, Daniel-son!", message: "You may only delete your own projects"});
+        }
+    });
+});
 
 router.get('*', (req, res) => {
     var reactString = ReactDOMServer.renderToString(
-        React.createElement(ReactApp)
+        React.createElement(PortfolioApp)
     );
     res.render('index.ejs');
 });

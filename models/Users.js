@@ -12,7 +12,8 @@ var User = new Schema({
         publicRepos: Number,
         created: Date,
         avatar: String
-	}
+	},
+	projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }]
 });
 
 module.exports = mongoose.model('User', User);

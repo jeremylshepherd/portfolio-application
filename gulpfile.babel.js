@@ -16,10 +16,10 @@ gulp.task("build-js", () => {
 
 gulp.task("build-react", () => {
     
-    return browserify("views/Components/ReactApp")
+    return browserify("views/Components/PortfolioApp")
     .transform("babelify")
     .bundle()
-    .pipe(source("ReactApp.js"))
+    .pipe(source("PortfolioApp.js"))
     .pipe(gulp.dest("public/dist"));
 });
 
@@ -29,16 +29,16 @@ gulp.task('build-css', () => {
     .pipe(gulp.dest('public/dist'));
 });
 
-// gulp.task("sass:watch", () => {
-//     gulp.watch('src/*.sass', ['build-css']);    
+gulp.task("sass:watch", () => {
+    gulp.watch('src/*.sass', ['build-css']);    
     
     
-// });
+});
 
-// gulp.task("js:watch", () => {
-//     gulp.watch('src/app.js', ['build-js']);
-//     gulp.watch('views/Components/*.js', ['build-js']);
-//     gulp.watch('views/Components/*.js', ['build-react']);
-// });
+gulp.task("js:watch", () => {
+    gulp.watch('src/app.js', ['build-js']);
+    gulp.watch('views/Components/*.js', ['build-js']);
+    gulp.watch('views/Components/*.js', ['build-react']);
+});
 // "build-react",
-gulp.task("default", ["build-js", "build-react", "build-css"]);
+gulp.task("default", ["build-js", "build-react", "build-css", "js:watch", "sass:watch"]);
