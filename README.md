@@ -1,9 +1,8 @@
 # Portfolio Application
-Portfolio Application
 
 An integrated solution for updating and maintaining protfolio projects.
 
-Built using Express, MongoDB(Mongoose), React, React-router, Node.
+Built using Express, MongoDB(Mongoose), React, React-router, Node, and Passport.
 
 Register/Login using Github
 

@@ -38293,8 +38293,43 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var PortfolioProjects = _react2.default.createClass({
   displayName: 'PortfolioProjects',
 
+  getInitialState: function getInitialState() {
+    return { query: '' };
+  },
+
+  handleQuery: function handleQuery(e) {
+    this.setState({ query: e.target.value });
+  },
+
+  clearQuery: function clearQuery() {
+    this.setState({ query: '' });
+  },
+
+  queryCheck: function queryCheck(r, query) {
+    query = query.toLowerCase();
+    var tech = r.technologies.join(', ');
+    if (r.title.toLowerCase().indexOf(query) !== -1 || tech.toLowerCase().indexOf(query) !== -1 || r.type.toLowerCase().indexOf(query) !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
   render: function render() {
-    var ThumbNodes = this.props.data.map(function (project, i) {
+    var _this = this;
+
+    var filtered;
+    if (this.state.query) {
+      filtered = [];
+      this.props.data.map(function (r) {
+        if (_this.queryCheck(r, _this.state.query)) {
+          filtered.push(r);
+        }
+      });
+    } else {
+      filtered = this.props.data;
+    }
+    var ThumbNodes = filtered.map(function (project, i) {
       var technologies = project.technologies.join(', ');
       return _react2.default.createElement(
         'div',
@@ -38339,6 +38374,20 @@ var PortfolioProjects = _react2.default.createClass({
           'h2',
           null,
           'Projects'
+        ),
+        _react2.default.createElement(
+          'form',
+          { className: 'form-group col-xs-12' },
+          _react2.default.createElement(
+            'div',
+            { className: 'input-group' },
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', value: this.state.query, placeholder: 'Search...', onChange: this.handleQuery }),
+            _react2.default.createElement(
+              'div',
+              { className: 'input-group-addon', onClick: this.clearQuery },
+              'Clear'
+            )
+          )
         ),
         ThumbNodes
       )
