@@ -124,6 +124,30 @@ router.get('/api/project/:project', cors(), isLoggedIn, (req, res) => {
     });
 });
 
+
+router.post('/api/update/:project', cors(), isLoggedIn, (req, res) => {
+    Project.findOne({'_id' : req.params.project},(err,project) => {
+        if(err) {console.log(err);}
+        if(project.creator.toString() === req.user._id.toString()){
+            project.title = req.body.title;
+            project.user = req.user.github.username;
+            project.description = req.body.description;
+            project.url = req.body.url;
+            project.repo = req.body.repo;
+            project.img = req.body.img;
+            project.type = req.body.type;
+            project.technologies = req.body.technologies;
+            project.save();
+            console.log("Project updated!");
+            res.json({message: "Project updated!"});
+        }else{
+            console.log("You may only your own projects!");
+            res.json({message: "You may only your own projects!"});
+        }
+        
+    });
+});
+
 router.delete('/api/delete/:project', isLoggedIn, (req, res) => {
     Project.findOne({'_id' : req.params.project},(err,project) => {
         console.log(project.creator);

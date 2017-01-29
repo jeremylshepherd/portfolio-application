@@ -37546,6 +37546,14 @@ var _ProjectPage = require("../views/Components/ProjectPage.js");
 
 var _ProjectPage2 = _interopRequireDefault(_ProjectPage);
 
+var _PortfolioProjectsUpdate = require("../views/Components/PortfolioProjectsUpdate.js");
+
+var _PortfolioProjectsUpdate2 = _interopRequireDefault(_PortfolioProjectsUpdate);
+
+var _ProjectUpdatePage = require("../views/Components/ProjectUpdatePage.js");
+
+var _ProjectUpdatePage2 = _interopRequireDefault(_ProjectUpdatePage);
+
 var _ProjectDeletePage = require("../views/Components/ProjectDeletePage.js");
 
 var _ProjectDeletePage2 = _interopRequireDefault(_ProjectDeletePage);
@@ -37572,11 +37580,13 @@ _reactDom2.default.render(_react2.default.createElement(
         { path: "/", component: _PortfolioApp2.default },
         _react2.default.createElement(_reactRouter.IndexRoute, { component: _PortfolioMain2.default }),
         _react2.default.createElement(_reactRouter.Route, { path: "new", component: _ProjectPage2.default }),
-        _react2.default.createElement(_reactRouter.Route, { path: "delete", component: _ProjectDeletePage2.default })
+        _react2.default.createElement(_reactRouter.Route, { path: "delete", component: _ProjectDeletePage2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: "update", component: _PortfolioProjectsUpdate2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: ":id", component: _ProjectUpdatePage2.default })
     )
 ), app);
 
-},{"../views/Components/PortfolioApp.js":244,"../views/Components/PortfolioMain.js":248,"../views/Components/ProjectDeletePage.js":251,"../views/Components/ProjectPage.js":253,"bootstrap-jquery":1,"jquery":15,"react":241,"react-dom":16,"react-router":43}],243:[function(require,module,exports){
+},{"../views/Components/PortfolioApp.js":244,"../views/Components/PortfolioMain.js":248,"../views/Components/PortfolioProjectsUpdate.js":251,"../views/Components/ProjectDeletePage.js":252,"../views/Components/ProjectPage.js":254,"../views/Components/ProjectUpdatePage.js":255,"bootstrap-jquery":1,"jquery":15,"react":241,"react-dom":16,"react-router":43}],243:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -38174,6 +38184,15 @@ var PortfolioNav = _react2.default.createClass({
         null,
         _react2.default.createElement(
           "a",
+          { href: "/update" },
+          "Update"
+        )
+      ),
+      _react2.default.createElement(
+        "li",
+        null,
+        _react2.default.createElement(
+          "a",
           { href: "/delete" },
           "Delete"
         )
@@ -38398,6 +38417,88 @@ var PortfolioProjects = _react2.default.createClass({
 module.exports = PortfolioProjects;
 
 },{"react":241}],251:[function(require,module,exports){
+'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PortfolioProjectsUpdate = _react2.default.createClass({
+    displayName: 'PortfolioProjectsUpdate',
+
+    getInitialState: function getInitialState() {
+        return { data: [] };
+    },
+
+    loadProjects: function loadProjects() {
+        _jquery2.default.ajax({
+            url: '/api/jeremylshepherd/projects',
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                this.setState({
+                    data: data
+                });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error('/api/jeremylshepherd/projects', status, err.toString());
+            }.bind(this)
+        });
+    },
+
+    componentDidMount: function componentDidMount() {
+        this.loadProjects();
+    },
+
+
+    render: function render() {
+        var ThumbNodes = this.state.data.map(function (project, i) {
+            return _react2.default.createElement(
+                'li',
+                { className: 'list-group-item', key: i },
+                _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '' + project._id },
+                    project.title
+                )
+            );
+        });
+        return _react2.default.createElement(
+            'div',
+            { id: 'portfolio', className: 'container-fluid' },
+            _react2.default.createElement(
+                'div',
+                { className: 'panel panel-default main' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'constrain row' },
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'panel-heading' },
+                        'Projects'
+                    ),
+                    _react2.default.createElement(
+                        'ul',
+                        { className: 'list-group' },
+                        ThumbNodes
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = PortfolioProjectsUpdate;
+
+},{"jquery":15,"react":241,"react-router":43}],252:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -38511,7 +38612,7 @@ var ProjectDeletePage = _react2.default.createClass({
 
 module.exports = ProjectDeletePage;
 
-},{"./PortfolioFooter":247,"./PortfolioNav":249,"jquery":15,"react":241,"react-router":43}],252:[function(require,module,exports){
+},{"./PortfolioFooter":247,"./PortfolioNav":249,"jquery":15,"react":241,"react-router":43}],253:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -38750,7 +38851,7 @@ var ProjectForm = _react2.default.createClass({
 
 module.exports = ProjectForm;
 
-},{"jquery":15,"react":241,"react-router":43}],253:[function(require,module,exports){
+},{"jquery":15,"react":241,"react-router":43}],254:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -38808,4 +38909,269 @@ var ProjectPage = React.createClass({
 
 module.exports = ProjectPage;
 
-},{"./ProjectForm":252,"jquery":15,"react":241}]},{},[242]);
+},{"./ProjectForm":253,"jquery":15,"react":241}],255:[function(require,module,exports){
+"use strict";
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require("react-router");
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ProjectForm = _react2.default.createClass({
+  displayName: "ProjectForm",
+
+
+  getInitialState: function getInitialState() {
+    return {
+      title: '',
+      description: '',
+      url: '',
+      repo: '',
+      img: '',
+      technologies: '',
+      type: ''
+    };
+  },
+
+  loadProject: function loadProject() {
+    _jquery2.default.ajax({
+      url: "/api/project/" + this.props.params.id,
+      dataType: 'json',
+      cache: false,
+      success: function (data) {
+        this.setState({
+          title: data.title,
+          description: data.description,
+          url: data.url,
+          repo: data.repo,
+          img: data.img,
+          technologies: data.technologies.join(', '),
+          type: data.type
+        });
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error("/api/project/" + this.props.params.id, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  handleTitleInput: function handleTitleInput(e) {
+    this.setState({ title: e.target.value });
+  },
+
+  handleDescriptionInput: function handleDescriptionInput(e) {
+    this.setState({ description: e.target.value });
+  },
+
+  handleUrlInput: function handleUrlInput(e) {
+    this.setState({ url: e.target.value });
+  },
+
+  handleRepoInput: function handleRepoInput(e) {
+    this.setState({ repo: e.target.value });
+  },
+
+  handleTechInput: function handleTechInput(e) {
+    this.setState({ technologies: e.target.value });
+  },
+
+  handleImgInput: function handleImgInput(e) {
+    this.setState({ img: e.target.value });
+  },
+
+  handleTypeInput: function handleTypeInput(e) {
+    this.setState({ type: e.target.value });
+  },
+
+  handleUpdateSubmit: function handleUpdateSubmit() {
+    var p = {};
+    p.title = this.state.title;
+    p.description = this.state.description;
+    p.url = this.state.url;
+    p.img = this.state.img;
+    var tech = this.state.technologies.split(',');
+    tech = tech.map(function (t) {
+      return t.trim();
+    });
+    console.log(tech);
+    p.technologies = tech;
+    p.repo = this.state.repo;
+    p.type = this.state.type;
+    _jquery2.default.ajax({
+      url: "/api/update/" + this.props.params.id,
+      dataType: 'json',
+      type: 'POST',
+      data: p,
+      success: function (data) {
+        this.setState({
+          title: '',
+          description: '',
+          url: '',
+          repo: '',
+          img: '',
+          technologies: '',
+          type: ''
+        });
+        _reactRouter.browserHistory.push('/');
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error("/api/update/" + this.props.params.id, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  componentDidMount: function componentDidMount() {
+    this.loadProject();
+  },
+
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      { className: "formBody" },
+      _react2.default.createElement(
+        "h3",
+        { className: "text-center" },
+        "Update Project Form"
+      ),
+      _react2.default.createElement(
+        "form",
+        { className: "container" },
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputTitle" },
+            "Title"
+          ),
+          _react2.default.createElement("input", {
+            type: "text",
+            className: "form-control",
+            id: "projectInputTitle",
+            placeholder: "Title",
+            name: "title",
+            value: this.state.title,
+            onChange: this.handleTitleInput })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputTitle" },
+            "Description"
+          ),
+          _react2.default.createElement("textarea", {
+            type: "text",
+            className: "form-control",
+            id: "projectInputTitle",
+            placeholder: "Description",
+            name: "description",
+            value: this.state.description,
+            onChange: this.handleDescriptionInput })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputURL" },
+            "Url"
+          ),
+          _react2.default.createElement("input", {
+            type: "text",
+            className: "form-control",
+            id: "projectInputURL",
+            placeholder: "Project Url",
+            name: "url",
+            value: this.state.url,
+            onChange: this.handleUrlInput })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputTech" },
+            "Technologies"
+          ),
+          _react2.default.createElement("input", {
+            type: "text",
+            className: "form-control",
+            id: "projectInputTech",
+            placeholder: "Techonologies (Please separate by comma)",
+            name: "technologies",
+            value: this.state.technologies,
+            onChange: this.handleTechInput })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputIMG" },
+            "Project Image"
+          ),
+          _react2.default.createElement("input", {
+            id: "projectInputIMG",
+            type: "text",
+            className: "form-control",
+            placeholder: "IMG URL",
+            name: "img",
+            value: this.state.img,
+            onChange: this.handleImgInput })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputRepo" },
+            "Github Repository"
+          ),
+          _react2.default.createElement("input", {
+            id: "projectInputRepo",
+            type: "text",
+            className: "form-control",
+            placeholder: "Github Repository",
+            name: "repo",
+            value: this.state.repo,
+            onChange: this.handleRepoInput })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "form-group" },
+          _react2.default.createElement(
+            "label",
+            { htmlFor: "projectInputType" },
+            "Project Type"
+          ),
+          _react2.default.createElement("input", {
+            id: "projectInputType",
+            type: "text",
+            className: "form-control",
+            placeholder: "Front-End, Back-end, Full-stack",
+            name: "type",
+            value: this.state.type,
+            onChange: this.handleTypeInput })
+        ),
+        _react2.default.createElement(
+          "span",
+          { className: "btn btn-primary", onClick: this.handleUpdateSubmit },
+          "Submit"
+        )
+      )
+    );
+  }
+});
+
+module.exports = ProjectForm;
+
+},{"jquery":15,"react":241,"react-router":43}]},{},[242]);

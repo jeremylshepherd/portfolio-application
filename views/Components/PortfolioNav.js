@@ -10,6 +10,7 @@ var PortfolioNav = React.createClass({
           <li><a href="/#portfolio">Portfolio</a></li>
           <li><a href="/#contact">Contact</a></li>
           <li><a href="/new">New</a></li>
+          <li><a href="/update">Update</a></li>
           <li><a href="/delete">Delete</a></li>
         </ul>
     ):(

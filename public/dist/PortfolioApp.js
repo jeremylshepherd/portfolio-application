@@ -14404,6 +14404,15 @@ var PortfolioNav = _react2.default.createClass({
         null,
         _react2.default.createElement(
           "a",
+          { href: "/update" },
+          "Update"
+        )
+      ),
+      _react2.default.createElement(
+        "li",
+        null,
+        _react2.default.createElement(
+          "a",
           { href: "/delete" },
           "Delete"
         )
