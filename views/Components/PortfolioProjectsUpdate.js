@@ -35,12 +35,14 @@ var PortfolioProjectsUpdate = React.createClass({
         });
         return (
           <div id="portfolio" className="container-fluid">
-          <div className="panel panel-default main">
-                <div className="constrain row">
+            <div className="constrain row">
+                <div className="panel panel-default main">
                   <h2 className="panel-heading">Projects</h2>
+                  <div className="panel-body">
                   <ul className="list-group">
                     {ThumbNodes}
                   </ul>
+                  </div>
                 </div>
             </div>
           </div>

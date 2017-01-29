@@ -38476,19 +38476,23 @@ var PortfolioProjectsUpdate = _react2.default.createClass({
             { id: 'portfolio', className: 'container-fluid' },
             _react2.default.createElement(
                 'div',
-                { className: 'panel panel-default main' },
+                { className: 'constrain row' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'constrain row' },
+                    { className: 'panel panel-default main' },
                     _react2.default.createElement(
                         'h2',
                         { className: 'panel-heading' },
                         'Projects'
                     ),
                     _react2.default.createElement(
-                        'ul',
-                        { className: 'list-group' },
-                        ThumbNodes
+                        'div',
+                        { className: 'panel-body' },
+                        _react2.default.createElement(
+                            'ul',
+                            { className: 'list-group' },
+                            ThumbNodes
+                        )
                     )
                 )
             )
