@@ -38125,6 +38125,8 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require("react-router");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PortfolioNav = _react2.default.createClass({
@@ -38138,8 +38140,8 @@ var PortfolioNav = _react2.default.createClass({
         "li",
         null,
         _react2.default.createElement(
-          "a",
-          { href: "/" },
+          _reactRouter.Link,
+          { to: "/" },
           "Home"
         )
       ),
@@ -38204,8 +38206,8 @@ var PortfolioNav = _react2.default.createClass({
         "li",
         null,
         _react2.default.createElement(
-          "a",
-          { href: "#home" },
+          _reactRouter.Link,
+          { to: "/" },
           "Home"
         )
       ),
@@ -38300,7 +38302,7 @@ var PortfolioNav = _react2.default.createClass({
 
 module.exports = PortfolioNav;
 
-},{"react":241}],250:[function(require,module,exports){
+},{"react":241,"react-router":43}],250:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');

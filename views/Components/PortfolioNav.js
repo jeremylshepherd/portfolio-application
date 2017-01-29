@@ -1,11 +1,12 @@
 import React from "react";
+import {Link} from 'react-router';
 
 var PortfolioNav = React.createClass({
   render: function() {
     let navList = this.props.auth ?
     (
         <ul className="nav navbar-nav navbar-right">
-          <li><a href="/">Home</a></li>
+          <li><Link to="/">Home</Link></li>
           <li><a href="/#about">About</a></li>
           <li><a href="/#portfolio">Portfolio</a></li>
           <li><a href="/#contact">Contact</a></li>
@@ -15,7 +16,7 @@ var PortfolioNav = React.createClass({
         </ul>
     ):(
         <ul className="nav navbar-nav navbar-right">
-          <li><a href="#home">Home</a></li>
+          <li><Link to="/">Home</Link></li>
           <li><a href="#about">About</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#contact">Contact</a></li>
