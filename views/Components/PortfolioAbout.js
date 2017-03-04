@@ -45,7 +45,9 @@ var PortfolioAbout = React.createClass({
       <div id="about-container" className="container-fluid">
         <div id="about" className="about-me row">
           <div className="col-md-6 hidden-sm-down">
-            <img id="self" className="img-responsive  img-rounded self center-block" src={this.state.img} alt="Jeremy L. Shepherd"/>
+            <div className="polaroid img-responsive img-rounded">
+              <img id="self" className="self center-block" src={this.state.img} alt="Jeremy L. Shepherd"/>
+            </div>
           </div>
           <div className="about col-md-6 col-xs-12">
             <p>{this.state.bio}

@@ -327,12 +327,18 @@ button a:hover {
   .about-me .row {
     padding: 5px; }
 
+.polaroid {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 66%;
+  height: 125;
+  box-shadow: 6px 6px 6px #222; }
+
 .self {
   text-align: center;
   margin-bottom: 10px;
   width: 60%;
   max-width: 398px;
-  box-shadow: 6px 6px 6px #222;
   opacity: 0.85; }
 
 p {

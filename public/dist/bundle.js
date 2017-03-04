@@ -37657,7 +37657,11 @@ var PortfolioAbout = _react2.default.createClass({
         _react2.default.createElement(
           'div',
           { className: 'col-md-6 hidden-sm-down' },
-          _react2.default.createElement('img', { id: 'self', className: 'img-responsive  img-rounded self center-block', src: this.state.img, alt: 'Jeremy L. Shepherd' })
+          _react2.default.createElement(
+            'div',
+            { className: 'polaroid img-responsive img-rounded' },
+            _react2.default.createElement('img', { id: 'self', className: 'self center-block', src: this.state.img, alt: 'Jeremy L. Shepherd' })
+          )
         ),
         _react2.default.createElement(
           'div',
