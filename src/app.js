@@ -6,6 +6,7 @@ import ProjectPage from "../views/Components/ProjectPage.js";
 import PortfolioProjectsUpdate from "../views/Components/PortfolioProjectsUpdate.js";
 import ProjectUpdatePage from "../views/Components/ProjectUpdatePage.js";
 import ProjectDeletePage from "../views/Components/ProjectDeletePage.js";
+import UserForm from "../views/Components/UserForm.js";
 import { Router, Route, Link, browserHistory, hashHistory, IndexRoute } from 'react-router';
 import $ from 'jquery';
 import boostrap$ from 'bootstrap-jquery';
@@ -20,6 +21,7 @@ ReactDOM.render(
             <Route path='delete' component={ProjectDeletePage} />
             <Route path='update' component={PortfolioProjectsUpdate} />
             <Route path=':id' component={ProjectUpdatePage} />
+            <Route path='user/update' component={UserForm} />
         </Route>
     </Router>, 
     app

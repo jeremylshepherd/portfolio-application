@@ -18592,49 +18592,88 @@ arguments[4][54][0].apply(exports,arguments)
 module.exports = require('./lib/React');
 
 },{"./lib/React":61}],90:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PortfolioAbout = _react2.default.createClass({
-  displayName: "PortfolioAbout",
+  displayName: 'PortfolioAbout',
+
+  getInitialState: function getInitialState() {
+    return {
+      bio: '',
+      email: '',
+      compentencies: [],
+      img: ''
+    };
+  },
+
+  getUser: function getUser() {
+    _jquery2.default.ajax({
+      url: '/api/jeremylshepherd/data',
+      dataType: 'json',
+      cache: false,
+      success: function (data) {
+        this.setState({
+          user: data,
+          bio: data.bio,
+          img: data.img,
+          email: data.email,
+          compentencies: data.compentencies
+        });
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error('/api/jeremylshepherd/data', status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  componentDidMount: function componentDidMount() {
+    this.getUser();
+  },
 
   render: function render() {
+    var compentencies = this.state.compentencies.map(function (l, i) {
+      return _react2.default.createElement(
+        'span',
+        { key: i, className: 'clearfix' },
+        l
+      );
+    });
     return _react2.default.createElement(
-      "div",
-      { id: "about-container", className: "container-fluid" },
+      'div',
+      { id: 'about-container', className: 'container-fluid' },
       _react2.default.createElement(
-        "div",
-        { id: "about", className: "about-me row" },
+        'div',
+        { id: 'about', className: 'about-me row' },
         _react2.default.createElement(
-          "div",
-          { className: "col-md-6 hidden-sm-down" },
-          _react2.default.createElement("img", { id: "self", className: "img-responsive self center-block", src: "/dist/Jer Square.jpg", alt: "Jeremy L. Shepherd" })
+          'div',
+          { className: 'col-md-6 hidden-sm-down' },
+          _react2.default.createElement('img', { id: 'self', className: 'img-responsive  img-rounded self center-block', src: this.state.img, alt: 'Jeremy L. Shepherd' })
         ),
         _react2.default.createElement(
-          "div",
-          { className: "about col-md-6 col-xs-12" },
+          'div',
+          { className: 'about col-md-6 col-xs-12' },
           _react2.default.createElement(
-            "p",
+            'p',
             null,
-            "I am a self-taught full-stack developer. In 2014, I began teaching myself front-end development in order to start a new career. I have spent the past 18 years working in law enforcement. I have a passion for building functional and beautiful web applications that enhance people's lives and free them to spend their focus and energy on following their passions.",
-            _react2.default.createElement("br", null),
-            _react2.default.createElement("br", null),
+            this.state.bio,
+            _react2.default.createElement('br', null),
+            _react2.default.createElement('br', null),
             _react2.default.createElement(
-              "span",
+              'span',
               null,
-              "Compentencies:"
+              'Compentencies:'
             ),
-            _react2.default.createElement("br", null),
-            " MEAN/MERN stack (MongoDB, ExpressJS, AngularJS, ReactJS, NodeJS)",
-            _react2.default.createElement("br", null),
-            " Ruby on Rails, ERB, HAML, SASS, RSPEC,",
-            _react2.default.createElement("br", null),
-            " D3, Jade, EJS, HTML5, CSS3, Vanilla JS, jQuery, MongooseJS, and Bootstrap"
+            compentencies
           )
         )
       )
@@ -18644,7 +18683,7 @@ var PortfolioAbout = _react2.default.createClass({
 
 module.exports = PortfolioAbout;
 
-},{"react":89}],91:[function(require,module,exports){
+},{"jquery":2,"react":89}],91:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),

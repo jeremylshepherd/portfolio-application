@@ -38,21 +38,15 @@ var ProjectForm = React.createClass({
     });
   },
   
-  handleTitleInput: function(e) {this.setState({title: e.target.value})},
-  
-  handleDescriptionInput: function(e) {this.setState({description: e.target.value})},
-  
-  handleUrlInput: function(e) {this.setState({url: e.target.value})},
-  
-  handleRepoInput: function(e) {this.setState({repo: e.target.value})},
-  
-  handleTechInput: function(e) {
-    this.setState({technologies: e.target.value});
+  handleInput: function(e) {
+    let target = e.target;
+      let name = target.name;
+      let value = target.value;
+      
+      this.setState({
+          [name]: value
+      });
   },
-  
-  handleImgInput: function(e) {this.setState({img: e.target.value})},
-  
-  handleTypeInput: function(e) {this.setState({type: e.target.value})},
   
   
   handleUpdateSubmit: function() {
@@ -108,7 +102,7 @@ var ProjectForm = React.createClass({
               placeholder="Title" 
               name="title" 
               value={this.state.title} 
-              onChange={this.handleTitleInput}/>
+              onChange={this.handleInput}/>
           </div>
           <div className="form-group">
             <label htmlFor="projectInputTitle">Description</label>
@@ -119,7 +113,7 @@ var ProjectForm = React.createClass({
               placeholder="Description" 
               name="description" 
               value={this.state.description}
-              onChange={this.handleDescriptionInput}/>
+              onChange={this.handleInput}/>
           </div>
           <div className="form-group">
             <label htmlFor="projectInputURL">Url</label>
@@ -130,7 +124,7 @@ var ProjectForm = React.createClass({
               placeholder="Project Url" 
               name="url" 
               value={this.state.url}
-              onChange={this.handleUrlInput}/>
+              onChange={this.handleInput}/>
           </div>
           <div className="form-group">
             <label htmlFor="projectInputTech">Technologies</label>
@@ -141,7 +135,7 @@ var ProjectForm = React.createClass({
               placeholder="Techonologies (Please separate by comma)" 
               name="technologies" 
               value={this.state.technologies}
-              onChange={this.handleTechInput}/>
+              onChange={this.handleInput}/>
           </div>
           <div className="form-group">
             <label htmlFor="projectInputIMG">Project Image</label>
@@ -152,7 +146,7 @@ var ProjectForm = React.createClass({
                 placeholder="IMG URL" 
                 name="img" 
                 value={this.state.img}
-                onChange={this.handleImgInput}/>
+                onChange={this.handleInput}/>
           </div>
           <div className="form-group">
             <label htmlFor="projectInputRepo">Github Repository</label>
@@ -163,7 +157,7 @@ var ProjectForm = React.createClass({
                 placeholder="Github Repository" 
                 name="repo" 
                 value={this.state.repo}
-                onChange={this.handleRepoInput}/>
+                onChange={this.handleInput}/>
           </div>
           <div className="form-group">
             <label htmlFor="projectInputType">Project Type</label>
@@ -174,7 +168,7 @@ var ProjectForm = React.createClass({
                 placeholder="Front-End, Back-end, Full-stack" 
                 name="type" 
                 value={this.state.type}
-                onChange={this.handleTypeInput}/>
+                onChange={this.handleInput}/>
           </div>
           <span  className="btn btn-primary" onClick={this.handleUpdateSubmit}>Submit</span>
         </form>

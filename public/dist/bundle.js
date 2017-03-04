@@ -37558,6 +37558,10 @@ var _ProjectDeletePage = require("../views/Components/ProjectDeletePage.js");
 
 var _ProjectDeletePage2 = _interopRequireDefault(_ProjectDeletePage);
 
+var _UserForm = require("../views/Components/UserForm.js");
+
+var _UserForm2 = _interopRequireDefault(_UserForm);
+
 var _reactRouter = require("react-router");
 
 var _jquery = require("jquery");
@@ -37582,54 +37586,94 @@ _reactDom2.default.render(_react2.default.createElement(
         _react2.default.createElement(_reactRouter.Route, { path: "new", component: _ProjectPage2.default }),
         _react2.default.createElement(_reactRouter.Route, { path: "delete", component: _ProjectDeletePage2.default }),
         _react2.default.createElement(_reactRouter.Route, { path: "update", component: _PortfolioProjectsUpdate2.default }),
-        _react2.default.createElement(_reactRouter.Route, { path: ":id", component: _ProjectUpdatePage2.default })
+        _react2.default.createElement(_reactRouter.Route, { path: ":id", component: _ProjectUpdatePage2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: "user/update", component: _UserForm2.default })
     )
 ), app);
 
-},{"../views/Components/PortfolioApp.js":244,"../views/Components/PortfolioMain.js":248,"../views/Components/PortfolioProjectsUpdate.js":251,"../views/Components/ProjectDeletePage.js":252,"../views/Components/ProjectPage.js":254,"../views/Components/ProjectUpdatePage.js":255,"bootstrap-jquery":1,"jquery":15,"react":241,"react-dom":16,"react-router":43}],243:[function(require,module,exports){
-"use strict";
+},{"../views/Components/PortfolioApp.js":244,"../views/Components/PortfolioMain.js":248,"../views/Components/PortfolioProjectsUpdate.js":251,"../views/Components/ProjectDeletePage.js":252,"../views/Components/ProjectPage.js":254,"../views/Components/ProjectUpdatePage.js":255,"../views/Components/UserForm.js":256,"bootstrap-jquery":1,"jquery":15,"react":241,"react-dom":16,"react-router":43}],243:[function(require,module,exports){
+'use strict';
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PortfolioAbout = _react2.default.createClass({
-  displayName: "PortfolioAbout",
+  displayName: 'PortfolioAbout',
+
+  getInitialState: function getInitialState() {
+    return {
+      bio: '',
+      email: '',
+      compentencies: [],
+      img: ''
+    };
+  },
+
+  getUser: function getUser() {
+    _jquery2.default.ajax({
+      url: '/api/jeremylshepherd/data',
+      dataType: 'json',
+      cache: false,
+      success: function (data) {
+        this.setState({
+          user: data,
+          bio: data.bio,
+          img: data.img,
+          email: data.email,
+          compentencies: data.compentencies
+        });
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error('/api/jeremylshepherd/data', status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  componentDidMount: function componentDidMount() {
+    this.getUser();
+  },
 
   render: function render() {
+    var compentencies = this.state.compentencies.map(function (l, i) {
+      return _react2.default.createElement(
+        'span',
+        { key: i, className: 'clearfix' },
+        l
+      );
+    });
     return _react2.default.createElement(
-      "div",
-      { id: "about-container", className: "container-fluid" },
+      'div',
+      { id: 'about-container', className: 'container-fluid' },
       _react2.default.createElement(
-        "div",
-        { id: "about", className: "about-me row" },
+        'div',
+        { id: 'about', className: 'about-me row' },
         _react2.default.createElement(
-          "div",
-          { className: "col-md-6 hidden-sm-down" },
-          _react2.default.createElement("img", { id: "self", className: "img-responsive self center-block", src: "/dist/Jer Square.jpg", alt: "Jeremy L. Shepherd" })
+          'div',
+          { className: 'col-md-6 hidden-sm-down' },
+          _react2.default.createElement('img', { id: 'self', className: 'img-responsive  img-rounded self center-block', src: this.state.img, alt: 'Jeremy L. Shepherd' })
         ),
         _react2.default.createElement(
-          "div",
-          { className: "about col-md-6 col-xs-12" },
+          'div',
+          { className: 'about col-md-6 col-xs-12' },
           _react2.default.createElement(
-            "p",
+            'p',
             null,
-            "I am a self-taught full-stack developer. In 2014, I began teaching myself front-end development in order to start a new career. I have spent the past 18 years working in law enforcement. I have a passion for building functional and beautiful web applications that enhance people's lives and free them to spend their focus and energy on following their passions.",
-            _react2.default.createElement("br", null),
-            _react2.default.createElement("br", null),
+            this.state.bio,
+            _react2.default.createElement('br', null),
+            _react2.default.createElement('br', null),
             _react2.default.createElement(
-              "span",
+              'span',
               null,
-              "Compentencies:"
+              'Compentencies:'
             ),
-            _react2.default.createElement("br", null),
-            " MEAN/MERN stack (MongoDB, ExpressJS, AngularJS, ReactJS, NodeJS)",
-            _react2.default.createElement("br", null),
-            " Ruby on Rails, ERB, HAML, SASS, RSPEC,",
-            _react2.default.createElement("br", null),
-            " D3, Jade, EJS, HTML5, CSS3, Vanilla JS, jQuery, MongooseJS, and Bootstrap"
+            compentencies
           )
         )
       )
@@ -37639,7 +37683,7 @@ var PortfolioAbout = _react2.default.createClass({
 
 module.exports = PortfolioAbout;
 
-},{"react":241}],244:[function(require,module,exports){
+},{"jquery":15,"react":241}],244:[function(require,module,exports){
 "use strict";
 
 var React = require("react"),
@@ -38460,7 +38504,6 @@ var PortfolioProjectsUpdate = _react2.default.createClass({
         this.loadProjects();
     },
 
-
     render: function render() {
         var ThumbNodes = this.state.data.map(function (project, i) {
             return _react2.default.createElement(
@@ -38493,6 +38536,15 @@ var PortfolioProjectsUpdate = _react2.default.createClass({
                         _react2.default.createElement(
                             'ul',
                             { className: 'list-group' },
+                            _react2.default.createElement(
+                                'li',
+                                { className: 'list-group-item' },
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: 'user/update' },
+                                    'User'
+                                )
+                            ),
                             ThumbNodes
                         )
                     )
@@ -38633,6 +38685,8 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var ProjectForm = _react2.default.createClass({
   displayName: "ProjectForm",
 
@@ -38649,33 +38703,30 @@ var ProjectForm = _react2.default.createClass({
     };
   },
 
-  handleTitleInput: function handleTitleInput(e) {
-    this.setState({ title: e.target.value });
+  handleInput: function handleInput(e) {
+    var target = e.target;
+    var name = target.name;
+    var value = target.value;
+
+    this.setState(_defineProperty({}, name, value));
   },
 
-  handleDescriptionInput: function handleDescriptionInput(e) {
-    this.setState({ description: e.target.value });
-  },
+  // handleTitleInput: function(e) {this.setState({title: e.target.value})},
 
-  handleUrlInput: function handleUrlInput(e) {
-    this.setState({ url: e.target.value });
-  },
+  // handleDescriptionInput: function(e) {this.setState({description: e.target.value})},
 
-  handleRepoInput: function handleRepoInput(e) {
-    this.setState({ repo: e.target.value });
-  },
+  // handleUrlInput: function(e) {this.setState({url: e.target.value})},
 
-  handleTechInput: function handleTechInput(e) {
-    this.setState({ technologies: e.target.value });
-  },
+  // handleRepoInput: function(e) {this.setState({repo: e.target.value})},
 
-  handleImgInput: function handleImgInput(e) {
-    this.setState({ img: e.target.value });
-  },
+  // handleTechInput: function(e) {
+  //   this.setState({technologies: e.target.value});
+  // },
 
-  handleTypeInput: function handleTypeInput(e) {
-    this.setState({ type: e.target.value });
-  },
+  // handleImgInput: function(e) {this.setState({img: e.target.value})},
+
+  // handleTypeInput: function(e) {this.setState({type: e.target.value})},
+
 
   handleProjectSubmit: function handleProjectSubmit() {
     var p = {};
@@ -38741,7 +38792,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Title",
             name: "title",
             value: this.state.title,
-            onChange: this.handleTitleInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -38758,7 +38809,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Description",
             name: "description",
             value: this.state.description,
-            onChange: this.handleDescriptionInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -38775,7 +38826,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Project Url",
             name: "url",
             value: this.state.url,
-            onChange: this.handleUrlInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -38792,7 +38843,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Techonologies (Please separate by comma)",
             name: "technologies",
             value: this.state.technologies,
-            onChange: this.handleTechInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -38809,7 +38860,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "IMG URL",
             name: "img",
             value: this.state.img,
-            onChange: this.handleImgInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -38826,7 +38877,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Github Repository",
             name: "repo",
             value: this.state.repo,
-            onChange: this.handleRepoInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -38843,7 +38894,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Front-End, Back-end, Full-stack",
             name: "type",
             value: this.state.type,
-            onChange: this.handleTypeInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "span",
@@ -38930,6 +38981,8 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var ProjectForm = _react2.default.createClass({
   displayName: "ProjectForm",
 
@@ -38968,32 +39021,12 @@ var ProjectForm = _react2.default.createClass({
     });
   },
 
-  handleTitleInput: function handleTitleInput(e) {
-    this.setState({ title: e.target.value });
-  },
+  handleInput: function handleInput(e) {
+    var target = e.target;
+    var name = target.name;
+    var value = target.value;
 
-  handleDescriptionInput: function handleDescriptionInput(e) {
-    this.setState({ description: e.target.value });
-  },
-
-  handleUrlInput: function handleUrlInput(e) {
-    this.setState({ url: e.target.value });
-  },
-
-  handleRepoInput: function handleRepoInput(e) {
-    this.setState({ repo: e.target.value });
-  },
-
-  handleTechInput: function handleTechInput(e) {
-    this.setState({ technologies: e.target.value });
-  },
-
-  handleImgInput: function handleImgInput(e) {
-    this.setState({ img: e.target.value });
-  },
-
-  handleTypeInput: function handleTypeInput(e) {
-    this.setState({ type: e.target.value });
+    this.setState(_defineProperty({}, name, value));
   },
 
   handleUpdateSubmit: function handleUpdateSubmit() {
@@ -39064,7 +39097,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Title",
             name: "title",
             value: this.state.title,
-            onChange: this.handleTitleInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -39081,7 +39114,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Description",
             name: "description",
             value: this.state.description,
-            onChange: this.handleDescriptionInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -39098,7 +39131,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Project Url",
             name: "url",
             value: this.state.url,
-            onChange: this.handleUrlInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -39115,7 +39148,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Techonologies (Please separate by comma)",
             name: "technologies",
             value: this.state.technologies,
-            onChange: this.handleTechInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -39132,7 +39165,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "IMG URL",
             name: "img",
             value: this.state.img,
-            onChange: this.handleImgInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -39149,7 +39182,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Github Repository",
             name: "repo",
             value: this.state.repo,
-            onChange: this.handleRepoInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "div",
@@ -39166,7 +39199,7 @@ var ProjectForm = _react2.default.createClass({
             placeholder: "Front-End, Back-end, Full-stack",
             name: "type",
             value: this.state.type,
-            onChange: this.handleTypeInput })
+            onChange: this.handleInput })
         ),
         _react2.default.createElement(
           "span",
@@ -39179,5 +39212,205 @@ var ProjectForm = _react2.default.createClass({
 });
 
 module.exports = ProjectForm;
+
+},{"jquery":15,"react":241,"react-router":43}],256:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserForm = function (_React$Component) {
+    _inherits(UserForm, _React$Component);
+
+    function UserForm() {
+        _classCallCheck(this, UserForm);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserForm).call(this));
+
+        _this.state = {
+            bio: '',
+            email: '',
+            img: '',
+            compentencies: [],
+            _id: ''
+        };
+
+        _this.handleInput = _this.handleInput.bind(_this);
+        _this.getUser = _this.getUser.bind(_this);
+        _this.updateUser = _this.updateUser.bind(_this);
+        return _this;
+    }
+
+    _createClass(UserForm, [{
+        key: 'getUser',
+        value: function getUser() {
+            _jquery2.default.ajax({
+                url: '/api/me',
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    this.setState({
+                        _id: data._id,
+                        bio: data.bio,
+                        img: data.img,
+                        email: data.email,
+                        compentencies: data.compentencies
+                    });
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    console.error('/api/me', status, err.toString());
+                }.bind(this)
+            });
+        }
+    }, {
+        key: 'handleInput',
+        value: function handleInput(e) {
+            var target = e.target;
+            var name = target.name;
+            var value = target.value;
+
+            if (name == 'compentencies') {
+                value = value.split('***');
+            }
+
+            this.setState(_defineProperty({}, name, value));
+        }
+    }, {
+        key: 'updateUser',
+        value: function updateUser() {
+            var data = _extends({}, this.state);
+            _jquery2.default.ajax({
+                url: '/api/' + this.state._id + '/update',
+                data: data,
+                dataType: 'json',
+                type: 'POST',
+                success: function success(data) {
+                    console.log(data);
+                    _reactRouter.browserHistory.push('/');
+                },
+                error: function error(xhr, status, err) {
+                    console.error(err);
+                    _reactRouter.browserHistory.push('/update');
+                }
+            });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.getUser();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'form-body formBody' },
+                _react2.default.createElement(
+                    'form',
+                    { className: 'container' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Bio'
+                        ),
+                        _react2.default.createElement('textarea', {
+                            type: 'text',
+                            rows: '4',
+                            className: 'form-control',
+                            placeholder: 'Title',
+                            name: 'bio',
+                            value: this.state.bio,
+                            onChange: this.handleInput })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Compentencies'
+                        ),
+                        _react2.default.createElement('textarea', {
+                            type: 'text',
+                            className: 'form-control',
+                            placeholder: 'Compentencies',
+                            name: 'compentencies',
+                            value: this.state.compentencies.join('***'),
+                            onChange: this.handleInput })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'IMG'
+                        ),
+                        _react2.default.createElement('input', {
+                            type: 'text',
+                            className: 'form-control',
+                            placeholder: 'Image',
+                            name: 'img',
+                            value: this.state.img,
+                            onChange: this.handleInput })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Email'
+                        ),
+                        _react2.default.createElement('input', {
+                            type: 'email',
+                            className: 'form-control',
+                            placeholder: 'Email',
+                            name: 'email',
+                            value: this.state.email,
+                            onChange: this.email })
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'btn btn-primary', onClick: this.updateUser },
+                        'Submit'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return UserForm;
+}(_react2.default.Component);
+
+exports.default = UserForm;
 
 },{"jquery":15,"react":241,"react-router":43}]},{},[242]);

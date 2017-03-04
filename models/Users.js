@@ -13,7 +13,11 @@ var User = new Schema({
         created: Date,
         avatar: String
 	},
-	projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }]
+	projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+	bio: String,
+	compentencies: [String],
+	img: String,
+	email:String
 });
 
 module.exports = mongoose.model('User', User);

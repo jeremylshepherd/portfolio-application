@@ -23,7 +23,7 @@ var PortfolioProjectsUpdate = React.createClass({
         });
     },
     
-    componentDidMount() {
+    componentDidMount: function() {
         this.loadProjects();
     },
     
@@ -40,6 +40,7 @@ var PortfolioProjectsUpdate = React.createClass({
                   <h2 className="panel-heading">Projects</h2>
                   <div className="panel-body">
                   <ul className="list-group">
+                    <li className="list-group-item"><Link to={'user/update'}>User</Link></li>
                     {ThumbNodes}
                   </ul>
                   </div>

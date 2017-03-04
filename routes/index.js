@@ -65,6 +65,18 @@ router.get('/api/me', isLoggedIn, (req, res) => {
     }
 });
 
+router.get('/api/:username/data', (req, res) => {
+    User.findOne({'github.username' : req.params.username}, (err, user) => {
+       if(err)  {res.json(err);}
+       var data = {};
+       data.bio = user.bio;
+       data.img = user.img;
+       data.email = user.email;
+       data.compentencies = user.compentencies;
+       res.json(data);
+    });
+});
+
 router.post('/api/newproject', isLoggedIn, (req, res) => {
   User.findOne({'github.username' : req.user.github.username}, (err, user) => {
       if(err){res.json(err);}
@@ -160,6 +172,24 @@ router.delete('/api/delete/:project', isLoggedIn, (req, res) => {
             res.json({taunt: "Ah! You all went behind 'uh ear, Daniel-son!", message: "You may only delete your own projects"});
         }
     });
+});
+
+router.post('/api/:user/update', cors(), isLoggedIn, (req, res) => {
+    if(req.user._id.toString() == req.params.user){
+        User.findOne({'_id' : req.params.user},(err,user) => {
+            if(err) {console.log(err);}
+            user.bio = req.body.bio;
+            user.email = req.body.email;
+            user.compentencies = req.body.compentencies;
+            user.img = req.body.img;
+            user.save();
+            console.log("User updated!");
+            res.json({message: "User updated!"});
+        });
+    }else{
+        console.log("You may only update yourself!");
+        res.json({message: "You may only update yourself!"});
+    }
 });
 
 router.get('*', (req, res) => {
