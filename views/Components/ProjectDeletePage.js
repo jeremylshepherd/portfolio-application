@@ -1,6 +1,4 @@
 import React from "react";
-import PortfolioNav from "./PortfolioNav";
-import PortfolioFooter from "./PortfolioFooter";
 import {browserHistory} from "react-router";
 import $ from 'jquery';
 

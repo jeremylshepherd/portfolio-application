@@ -1,16 +1,22 @@
-var React = require("react"),
-    PortfolioNav = require("./PortfolioNav"),
-    PortfolioFooter = require("./PortfolioFooter"),
-    PortfolioBanner = require("./PortfolioBanner"),
-    PortfolioProjects = require("./PortfolioProjects"),
-    PortfolioContact = require('./PortfolioContact'),
-    PortfolioAbout = require("./PortfolioAbout"),
-    $ = require("jquery");
+import React, { Component } from 'react';
+import Nav from './Nav';
+import Footer from './Footer';
+import $ from 'jquery';
 
-
-var PortfolioApp = React.createClass({
+class PortfolioApp extends Component {
+  constructor() {
+    super();
+    
+    this.state = {
+      auth: false,
+      showAuth: false
+    };
+    
+    this.getUser = this.getUser.bind(this);
+    this.handleShowAuth = this.handleShowAuth.bind(this);
+  }
   
-  getUser: function() {
+  getUser() {
     $.ajax({
       url: '/api/me',
       dataType: 'json',
@@ -24,31 +30,27 @@ var PortfolioApp = React.createClass({
         console.error('/api/me', status, err.toString());
       }.bind(this)
     });
-  },
+  }
   
-  getInitialState: function() {
-    return ({data: [], auth: false, showAuth: false});
-  },
-  
-  componentDidMount: function() {
+  componentDidMount() {
     this.getUser();
-  },
+  }
   
-  handleShowAuth: function() {
+  handleShowAuth() {
     this.setState({showAuth: !this.state.showAuth});
-  },
+  }
   
-  render: function() {
+  render() {
     return (
       <div>
-        <PortfolioNav auth={this.state.auth} showAuth={this.state.showAuth}/>
+        <Nav auth={this.state.auth} showAuth={this.state.showAuth}/>
         <main>
           {this.props.children}
         </main>
-        <PortfolioFooter showAuth={this.handleShowAuth}/>
+        <Footer showAuth={this.handleShowAuth}/>
       </div>
     );
   }
-});
+}
 
 module.exports = PortfolioApp;

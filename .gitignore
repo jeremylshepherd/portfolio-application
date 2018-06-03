@@ -3,3 +3,5 @@ npm-debug.log
 .DS_Store
 /*.env
 passport-compare.js
+seed.json
+seed_no_creator.json
