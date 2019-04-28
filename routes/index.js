@@ -102,8 +102,7 @@ router.get('/api/:username/projects', cors(), (req, res) => {
 });
 
 router.get('/api/:userID/projects', (req, res) => {
-    var query = { creator: req.params.userID };
-    Project.find(query, (err, projects) => {
+    Project.find({ creator: req.params.userID }, (err, projects) => {
         if (err) {
             console.log(err);
         }
@@ -112,8 +111,7 @@ router.get('/api/:userID/projects', (req, res) => {
 });
 
 router.get('/api/user/myprojects', isLoggedIn, (req, res) => {
-    var query = { creator: req.user._id };
-    Project.find(query, (err, projects) => {
+    Project.find({ creator: req.user._id }, (err, projects) => {
         if (err) {
             console.log(err);
         }
@@ -133,9 +131,12 @@ router.get('/api/projects', cors(), (req, res) => {
 router.get('/api/project/:project', cors(), (req, res) => {
     Project.findOne({ _id: req.params.project }, (err, project) => {
         if (err) {
-            console.log(err);
+            return console.log(err);
         }
-        res.json(project);
+        if (!project) {
+            return res.status(404).send('No project found');
+        }
+        return res.json(project);
     });
 });
 
