@@ -131,12 +131,12 @@ router.get('/api/projects', cors(), (req, res) => {
 router.get('/api/project/:project', cors(), (req, res) => {
     Project.findOne({ _id: req.params.project }, (err, project) => {
         if (err) {
-            return console.log(err);
+            console.log(err);
         }
         if (!project) {
-            return res.status(404).send('No project found');
+            res.status(404).send('No project found');
         }
-        return res.json(project);
+        res.json(project);
     });
 });
 
